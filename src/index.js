@@ -1,6 +1,6 @@
 // 入口js文件
 import React from 'react'
-import  ReactDOM  from 'react-dom'
+import ReactDOM  from 'react-dom'
 
 import App from './App'
 
