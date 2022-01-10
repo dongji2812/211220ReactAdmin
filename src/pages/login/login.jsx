@@ -1,13 +1,15 @@
-import React,{Component} from "react";
+import React,{Component} from 'react'; 
 import {
     Form,
     Icon,//框里的图标。
     Input,
-    Button
+    Button,
+    message
   } from 'antd';
- 
+
 import './login.less'
 import logo from './images/logo.png'//引入图片。
+import {repLogin} from '../../api'
 
 const Item = Form.Item; 
 
@@ -16,9 +18,20 @@ class Login extends Component{
     handleSubmit = (e) => {
         e.preventDefault();
 
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields(async (err, values) => {
             if (!err) {
-                console.log('校验成功');
+                //console.log('校验成功');
+                const {username, password} = values;
+                const result = await repLogin (username, password);
+                if (result.status === 0) {
+                    message.success('登陆成功');
+                    this.props.history.replace('/');
+
+                    const user = result.data;
+                    
+                } else {
+                    message.error(result.msg);
+                }
             } else {
                 console.log('校验失败');
             }
