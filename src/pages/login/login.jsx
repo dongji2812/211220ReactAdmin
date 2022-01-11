@@ -10,6 +10,9 @@ import {
 import './login.less'
 import logo from './images/logo.png'//引入图片。
 import {repLogin} from '../../api'
+import memoryUtils from '../../utils/memoryUtils';
+import storageUtils from '../../utils/storageUtils';
+import { Redirect } from 'react-router-dom';
 
 const Item = Form.Item; 
 
@@ -25,10 +28,13 @@ class Login extends Component{
                 const result = await repLogin (username, password);
                 if (result.status === 0) {
                     message.success('登陆成功');
-                    this.props.history.replace('/');
 
                     const user = result.data;
+                    storageUtils.saveUser(user);                   
+                    memoryUtils.user = user;
                     
+
+                    this.props.history.replace('/');                   
                 } else {
                     message.error(result.msg);
                 }
@@ -39,6 +45,11 @@ class Login extends Component{
     }
 
     render () {
+        const user = memoryUtils.user;
+        if (user && user._id) {
+            return <Redirect to='/'/>
+        }
+
         const form = this.props.form;
         const {getFieldDecorator} = form;
         return (
