@@ -8,7 +8,7 @@ import {
   } from 'antd';
 
 import './login.less'
-import logo from './images/logo.png'//引入图片。
+import logo from '../../assets/images/logo.png' //引入图片。
 import {repLogin} from '../../api'
 import memoryUtils from '../../utils/memoryUtils';
 import storageUtils from '../../utils/storageUtils';
