@@ -73,7 +73,7 @@ class LeftNav extends Component {
     }    
 
     render() {
-        const path = this.props.location.pathname;
+        const selectpath = this.props.location.pathname;
         const openKey = this.openKey;
 
         return (
@@ -83,7 +83,7 @@ class LeftNav extends Component {
                     <h1>硅谷后台</h1>
                 </Link>
                 <Menu
-                  selectedKeys={[path]}
+                  selectedKeys={[selectpath]}
                   defaultOpenKeys={[openKey]}
                   mode="inline"
                   theme="dark"
