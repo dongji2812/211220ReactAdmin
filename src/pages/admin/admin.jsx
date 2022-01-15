@@ -24,27 +24,29 @@ export default class Admin extends Component{
         }
         return (
             <Layout style={{height: '100%'}}>
-            <Sider>
-                <LeftNav></LeftNav>
-            </Sider>
-            <Layout>
-              <Header>header</Header>
-              <Content style={{margin:20, backgroundColor:'#fff'}}>
-                  <Switch>
-                      <Route path='/home' component={Home}/>
-                      <Route path='/category' component={Category}/>
-                      <Route path='/product' component={Product}/>
-                      <Route path='/user' component={User}/>
-                      <Route path='/role' component={Role}/>
-                      <Route path="/charts/bar" component={Bar}/>
-                      <Route path="/charts/pie" component={Pie}/>
-                      <Route path="/charts/line" component={Line}/>
-                      <Redirect to='/home'></Redirect>
-                  </Switch>
-              </Content>
-              <Footer style={{textAlign: 'center', color: '#cccccc'}}>推荐使用谷歌浏览器，可以获得更佳页面操作体验</Footer>
+                <Sider>
+                    <LeftNav></LeftNav>
+                </Sider>
+                <Layout>
+                    <Header>header</Header>
+
+                    <Content style={{margin:20, backgroundColor:'#fff'}}> {/* 默认是灰色，中间content设置为白色。 */}
+                        <Switch>
+                        <Route path='/home' component={Home}/>
+                        <Route path='/category' component={Category}/>
+                        <Route path='/product' component={Product}/>
+                        <Route path='/user' component={User}/>
+                        <Route path='/role' component={Role}/>
+                        <Route path="/charts/bar" component={Bar}/>
+                        <Route path="/charts/pie" component={Pie}/>
+                        <Route path="/charts/line" component={Line}/>
+                        <Redirect to='/home'></Redirect>
+                        </Switch>
+                    </Content>
+
+                    <Footer style={{textAlign: 'center', color: '#cccccc'}}>推荐使用谷歌浏览器，可以获得更佳页面操作体验</Footer>
+                </Layout>
             </Layout>
-          </Layout>
         )
     }
 }
