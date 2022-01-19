@@ -6,7 +6,7 @@ const BASE = '';
 
 export const repLogin = (username, password) => ajax(BASE + '/login', {username, password}, 'POST'); //调用ajax函数。
 
-export const repAddUser = (user) => ajax(BASE + '/manage/user/add', user, 'POST');
+//export const repAddUser = (user) => ajax(BASE + '/manage/user/add', user, 'POST');
 
 export const reqWeather = (city) => { //没有调用函数，直接写函数体。  用jsonp解决 get类型请求 的跨域问题。
     return new Promise ((resolve, reject) => {
