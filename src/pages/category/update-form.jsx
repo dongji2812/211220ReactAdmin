@@ -1,9 +1,16 @@
 import React, {Component} from 'react'
 import { Form, Input } from 'antd'
+import PropTypes from 'prop-types'
 
 const Item = Form.item
 
-class updateForm extends Component {
+class UpdateForm extends Component {
+    
+    static propTypes = {
+        categoryName: PropTypes.string.isRequired,
+        setForm: PropTypes.func.isRequired
+    }
+
     componentWillMount () {
         this.props.setForm(this.props.form)
     }
@@ -27,4 +34,4 @@ class updateForm extends Component {
         )
     }
 }
-export default Form.create()(updateForm)
+export default Form.create()(UpdateForm)

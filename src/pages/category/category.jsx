@@ -2,15 +2,15 @@ import React, {Component} from 'react'
 import { Card, Button, Icon, Table, message, Modal} from 'antd';
 import LinkButton from '../../components/link-button';
 import {reqCategorys, reqAddCategory, reqUpdateCategory} from '../../api';
-import addForm from './add-form';
-import updateForm from './update-form';
+import AddForm from './add-form';
+import UpdateForm from './update-form';
 
 export default class Category extends Component {
     state = {
-        /* loading: false, */
+        loading: false,
         categorys: [],
-        subcategorys: [],
-        parentId: '0',//字符串的格式，字符串'0'。
+        subCategorys: [],
+        parentId: '0 ',//字符串的格式，字符串'0'。
         parentName: '',
         showStatus: 0 //数字0.
     }
@@ -27,24 +27,24 @@ export default class Category extends Component {
                 render: (category) => (//看Table文档，render是个函数。
                     <span>
                         <LinkButton onClick={() => this.showUpdate(category)}>修改分类</LinkButton> {/* 点击后调用xx函数，传入的参数为本行category，调用时传入的参数为实参。 */}
-                        {this.state.parentId === '0'? <LinkButton onClick={() => this.showSubCategorys(category)}>查看子分类</LinkButton> : null}
+                        {this.state.parentId === '0' ? <LinkButton onClick={() => this.showSubCategorys(category)}>查看子分类</LinkButton> : null}
                     </span>
                 )
             }
-          ];
+          ]
     }
 
-    getCategorys = async() => {
+    getCategorys = async (parentId) => {
         this.setState({loading: true})
-        const {parentId} = this.state
+        parentId = parentId || this.state.parentId
         const result = await reqCategorys(parentId)
         this.setState({loading: false})
         if (result.status === 0) {
             const categorys = result.data
             if (parentId === '0') {
-                this.setState({categorys})
+                this.setState({categorys: categorys})
             } else {
-                this.setState({subcategorys: categorys})
+                this.setState({subCategorys: categorys})
             }
         }else {
             message.error('获取分类列表失败')
@@ -60,11 +60,11 @@ export default class Category extends Component {
         })
     }
 
-    showCategorys = () => {
+    showCategorys = () => {//因为之前有categorys的值，所以不用发请求。
         this.setState({
             parentId: '0',
             parentName: '',
-            subcategorys: []
+            subCategorys: []
         })
     }
 
@@ -82,20 +82,39 @@ export default class Category extends Component {
         this.setState({showStatus: 0})
     }
 
-    addCatrgory = () => {
-        this.setState({showStatus: 0})
+    addCategory = () => {
+        this.form.validateFields(async(err, values) => {
+            if (!err) {
+                this.setState({showStatus: 0})
+
+                const {parentId, categoryName} = values
+                this.form.resetFields()
+                const result = await reqAddCategory(parentId, categoryName)
+                if (result.status === 0) {
+                    if (parentId === this.state.parentId) {
+                        this.getCategorys()
+                    } else if (parentId === '0') {
+                        this.getCategorys('0')
+                    }
+                }
+            }
+        })
     }
 
-    updateCatrgory = async() => {
-        this.setState({showStatus: 0})
+    updateCategory = () => {
+        this.form.validateFields(async (err, values) => {
+            if (!err) {
+                this.setState({showStatus: 0})
 
-        const categoryId = this.category._id  //上面的函数 已经在this中存过category了。
-        const categoryName = this.form.getFieldValue('categoryName')
-        this.form.resetFields() //清除在Input框中输入的数据。
-        const result = await reqUpdateCategory({categoryId, categoryName})
-        if (result.status === 0) {
-            this.getCategorys()
-        }
+                const categoryId = this.category._id  //上面的函数 已经在this中存过category了。
+                const {categoryName} = values
+                this.form.resetFields() //清除在Input框中输入的数据。
+                const result = await reqUpdateCategory({categoryId, categoryName})
+                if (result.status === 0) {
+                    this.getCategorys()
+                }
+            }
+        })
     }
 
     componentWillMount () {
@@ -107,7 +126,7 @@ export default class Category extends Component {
     }
     
     render() {
-        const {parentId, parentName, categorys, subcategorys, showStatus, loading} = this.state
+        const {loading, categorys, subCategorys, parentId, parentName, showStatus} = this.state
         const category = this.category || {} //点击修改分类时会把当前行的category存到这里，刚开始没点击时category是没有值的，所以或上空对象，防止报错。
 
         const title = parentId === '0'? '一级分类列表' : (
@@ -128,10 +147,10 @@ export default class Category extends Component {
         return (
             <Card title={title} extra={extra}> {/* Card外不用套div。 */}
                 <Table 
-                loading={loading}
                 bordered
-                rowKey='_id' //指定唯一行，不然会报错。   字符串格式 指定数组中每个对象的_id。 
-                dataSource={parentId === '0'? categorys : subcategorys} 
+                rowKey='_id'  //指定唯一行，不然会报错。  rowKey对应 指定数组中每个对象的_id。（_id是字符串格式 ）
+                loading={loading}
+                dataSource={parentId === '0'? categorys : subCategorys} 
                 columns={this.columnss}
                 pagination={{defaultPageSize: 5, showQuickJumper: true}} //看table的API找到pagination，看到其为对象类型。再看pagination文档的API，找到defaultPageSize和showQuickJumper。
                 />
@@ -139,25 +158,27 @@ export default class Category extends Component {
                 <Modal /* Modal要写在card里。 */
                     title="添加分类" 
                     visible={showStatus === 1} 
-                    onOk={this.addCatrgory} 
+                    onOk={this.addCategory} 
                     onCancel={this.handleCancel}>
-                        <addForm
-                        /* parentId={} */
-                        >
-                        </addForm>
+                        <AddForm //父组件是Category，子组件是AddForm。子组件向父组件传递form。      Modal并不是组件。
+                        parentId={parentId}
+                        categorys={categorys}
+                        setForm={(form) => {this.form = form}}
+                        > 
+                        </AddForm>
                 </Modal>
 
                 <Modal 
                     title="修改分类" 
                     visible={showStatus === 2} 
-                    onOk={this.updateCatrgory} 
+                    onOk={this.updateCategory} 
                     onCancel={this.handleCancel}>
+                        <UpdateForm
+                            categoryName={category.name} //自己设置的categoryName属性。  render中读取了 点击修改分类函数调用时传入的实参该行category。
+                            setForm={(form) => {this.form = form}} //传过来的数据存到this.form中。
+                        >
+                        </UpdateForm>
                 </Modal>
-                <updateForm
-                    categoryName={category.name} //自己设置的categoryName属性。  render中读取了 点击修改分类函数调用时传入的实参该行category。
-                    setForm={(form) => {this.form = form}} //传过来的数据存到this.form中。
-                >
-                </updateForm>
             </Card>
         )
     }
