@@ -27,7 +27,7 @@ class UpdateForm extends Component {
                             rules: [
                                 {required: true, message: '分类名称必须输入'} //rules是个数组，每个数组元素是个对象。
                             ]
-                        })(<Input placeholder='请输入分类名称'></Input> /*  在没有没有文本的时候显示？ */)
+                        })(<Input placeholder='请输入分类名称'></Input> /* 在没有没有文本的时候显示，这个叫做提示文本。*/)
                     }
                 </Item>
             </Form>

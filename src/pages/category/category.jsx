@@ -31,7 +31,7 @@ export default class Category extends Component {
                     </span>
                 )
             }
-          ]
+        ]
     }
 
     getCategorys = async (parentId) => {
@@ -174,8 +174,8 @@ export default class Category extends Component {
                     onOk={this.updateCategory} 
                     onCancel={this.handleCancel}>
                         <UpdateForm
-                            categoryName={category.name} //自己设置的categoryName属性。  render中读取了 点击修改分类函数调用时传入的实参该行category。
-                            setForm={(form) => {this.form = form}} //传过来的数据存到this.form中。
+                            categoryName={category.name} //自己设置的categoryName属性。  render中读取了 点击修改分类函数调用时传入的实参该行category，所以可以取到它的name。
+                            setForm={(form) => {this.form = form}} //子组件传过来的数据 存到 父组件的this.form中。
                         >
                         </UpdateForm>
                 </Modal>
