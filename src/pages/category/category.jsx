@@ -1,16 +1,16 @@
 import React, {Component} from 'react'
-import { Card, Button, Icon, Table, message, Modal} from 'antd';
-import LinkButton from '../../components/link-button';
-import {reqCategorys, reqAddCategory, reqUpdateCategory} from '../../api';
-import AddForm from './add-form';
-import UpdateForm from './update-form';
+import { Card, Button, Icon, Table, message, Modal} from 'antd'
+import LinkButton from '../../components/link-button'
+import {reqCategorys, reqAddCategory, reqUpdateCategory} from '../../api'
+import AddForm from './add-form'
+import UpdateForm from './update-form'
 
 export default class Category extends Component {
     state = {
         loading: false,
         categorys: [],
         subCategorys: [],
-        parentId: '0 ',//字符串的格式，字符串'0'。
+        parentId: '0',//字符串的格式，字符串'0'。
         parentName: '',
         showStatus: 0 //数字0.
     }
@@ -122,10 +122,12 @@ export default class Category extends Component {
     }
 
     componentDidMount () {
+        /* debugger */
         this.getCategorys()
     }
     
     render() {
+        /* debugger */
         const {loading, categorys, subCategorys, parentId, parentName, showStatus} = this.state
         const category = this.category || {} //点击修改分类时会把当前行的category存到这里，刚开始没点击时category是没有值的，所以或上空对象，防止报错。
 
@@ -136,7 +138,7 @@ export default class Category extends Component {
                 <span>{parentName}</span>
             </span>
         )
-
+        /* debugger */
         const extra = (
             <Button type='primary' onClick={this.showAdd}>  {/* 是antd的Button，不是自带的button。 */}
                 <Icon type='plus'></Icon>
@@ -151,7 +153,7 @@ export default class Category extends Component {
                 rowKey='_id'  //指定唯一行，不然会报错。  rowKey对应 指定数组中每个对象的_id。（_id是字符串格式 ）
                 loading={loading}
                 dataSource={parentId === '0'? categorys : subCategorys} 
-                columns={this.columnss}
+                columns={this.columns}
                 pagination={{defaultPageSize: 5, showQuickJumper: true}} //看table的API找到pagination，看到其为对象类型。再看pagination文档的API，找到defaultPageSize和showQuickJumper。
                 />
 
@@ -164,8 +166,7 @@ export default class Category extends Component {
                         parentId={parentId}
                         categorys={categorys}
                         setForm={(form) => {this.form = form}}
-                        > 
-                        </AddForm>
+                        /> 
                 </Modal>
 
                 <Modal 
@@ -176,8 +177,7 @@ export default class Category extends Component {
                         <UpdateForm
                             categoryName={category.name} //自己设置的categoryName属性。  render中读取了 点击修改分类函数调用时传入的实参该行category，所以可以取到它的name。
                             setForm={(form) => {this.form = form}} //子组件传过来的数据 存到 父组件的this.form中。
-                        >
-                        </UpdateForm>
+                        />
                 </Modal>
             </Card>
         )

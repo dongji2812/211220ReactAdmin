@@ -26,12 +26,14 @@ class AddForm extends Component {
                     {
                         getFieldDecorator('parentId', {
                             initialValue: parentId
-                        })(<Select>
+                        })(
+                        <Select>
                             <Option value='0'>一级分类</Option> {/* 字符串放在''里。 */}
                             {
-                                categorys.map( c => <Option value={c._id}>{c.name}</Option>)  //遍历元素c生成标签。标签不要加{}。      变量放在{}里。
+                                categorys.map(c => <Option value={c._id}>{c.name}</Option>)  //遍历元素c生成标签。标签不要加{}。      变量放在{}里。
                             }
-                        </Select>)
+                        </Select>
+                        )
                     } 
                 </Item>
                 <Item>

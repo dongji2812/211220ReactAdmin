@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { Form, Input } from 'antd'
 import PropTypes from 'prop-types'
 
-const Item = Form.item
+const Item = Form.Item //注意是Form.Item。
 
 class UpdateForm extends Component {
     
@@ -15,7 +15,7 @@ class UpdateForm extends Component {
         this.props.setForm(this.props.form)
     }
     render() {
-        const categoryName = this.props
+        const {categoryName} = this.props
         const {getFieldDecorator} = this.props.form //写在render函数下，不能直接写在类组件下，为何？
 
         return (
@@ -34,4 +34,5 @@ class UpdateForm extends Component {
         )
     }
 }
+
 export default Form.create()(UpdateForm)
