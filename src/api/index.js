@@ -14,9 +14,13 @@ export const reqAddCategory = (parentId, categoryName) => ajax(BASE + '/manage/c
 
 export const reqUpdateCategory = ({categoryId, categoryName}) => ajax(BASE + '/manage/category/update', {categoryId, categoryName}, 'POST');
 
+export const reqCategory = (categoryId) => ajax(BASE + '/manage/category/info', {categoryId});
+
 export const reqProducts = (pageNum, pageSize) => ajax(BASE + '/manage/product/list', {pageNum, pageSize});
 
 export const reqSearchProducts = ({pageNum, pageSize, searchType, searchName}) => ajax(BASE + '/manage/product/search', {pageNum, pageSize, [searchType]:searchName})
+
+export const reqUpdateStatus = (productId, status) => ajax(BASE + '/manage/product/updateStatus', {productId, status}, 'POST')
 
 export const reqWeather = (city) => { //没有调用函数，直接写函数体。  用jsonp解决 get类型请求 的跨域问题。
     return new Promise ((resolve, reject) => {

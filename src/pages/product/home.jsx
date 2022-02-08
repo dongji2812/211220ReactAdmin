@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import { Card, Select, Input, Button, Icon, Table } from 'antd'
+import { Card, Select, Input, Button, Icon, Table, message } from 'antd'
 import LinkButton from '../../components/link-button'
-import { reqProducts, reqSearchProducts } from '../../api'
+import { reqProducts, reqSearchProducts, reqUpdateStatus } from '../../api'
 import { PAGE_SIZE } from '../../utils/constants'
 
 const Option = Select.Option
@@ -33,12 +33,19 @@ export default class ProductHome extends Component {
             {
               width: 100,
               title: '状态',
-              dataIndex: 'status',
-              render: (status) => {//render是个箭头函数。  有标签有文本，结构比较复杂，自己写一个return。
+              /* dataIndex: 'status', */
+              render: (product) => {//render是个箭头函数。  有标签有文本，结构比较复杂，所以自己写一个return。
+                const {_id, status} = product
+                const newStatus = status === 1 ? 2 : 1
                   return(
                       <span>
-                          <Button>在售</Button>
-                          <span>下架</span>
+                          <Button
+                              type='primary' 
+                              onClick={() => {this.updateStatus(_id, newStatus)}}
+                          >
+                              {status === 1 ? '下架' : '上架'}
+                          </Button>
+                          <span>{status === 1 ? '在售' : '已下架'}</span>
                       </span>
                   )
                 }
@@ -59,6 +66,7 @@ export default class ProductHome extends Component {
     }
 
     getProducts = async(pageNum) => { //getProducts()一个参数。
+        this.pageNum = pageNum
         this.setState({loading: true})
 
         const {searchType, searchName} = this.state
@@ -76,6 +84,14 @@ export default class ProductHome extends Component {
                 total,
                 products: list
             })
+        }
+    }
+
+    updateStatus = async(productId, status) => {
+        const result = await reqUpdateStatus(productId, status)
+        if (result.status === 0) {
+            message.success('更新商品成功')
+            this.getProducts(this.pageNum)
         }
     }
 
