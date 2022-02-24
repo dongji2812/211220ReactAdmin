@@ -36,7 +36,7 @@ class LeftNav extends Component {
     } */
 
     getMenuNodes_reduce = (menuList) => {
-        const path = this.props.location.pathname;
+        const path = this.props.location.pathname
 
         return menuList.reduce((pre, item) => {
             if (!item.children) {
@@ -49,18 +49,21 @@ class LeftNav extends Component {
                   </Menu.Item>                                       
                 ))
             } else {
-                const cItem = item.children.find(cItem => cItem.key === path);
+                /* const cItem = item.children.find(cItem => cItem.key === path) */
+                const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0)
                 if (cItem) {
                     this.openKey = item.key;
                 }
                 pre.push((
-                    <SubMenu key={item.key} title={
-                        <span>
-                            <Icon type={item.icon}></Icon>
-                            <span>{item.title}</span>
-                        </span>
-                    }>
-                        {this.getMenuNodes_reduce(item.children)}
+                    <SubMenu 
+                        key={item.key} 
+                        title={
+                            <span>
+                                <Icon type={item.icon}></Icon>
+                                <span>{item.title}</span>
+                            </span>
+                        }>
+                        {this.getMenuNodes_reduce(item.children)}     {/* 递归调用。 */}
                     </SubMenu>                   
                 ))
             }
@@ -73,8 +76,11 @@ class LeftNav extends Component {
     }    
 
     render() {
-        const selectpath = this.props.location.pathname;
-        const openKey = this.openKey;
+        let selectpath = this.props.location.pathname
+        if (selectpath.indexOf('/product') === 0) {
+            selectpath = '/product'
+        }
+        const openKey = this.openKey
 
         return (
             <div className='left-nav'>

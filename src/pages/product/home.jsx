@@ -126,9 +126,9 @@ export default class ProductHome extends Component {
             </span>
         )
         const extra = (
-            <Button type='primary'>
+            <Button type='primary' onClick={()=>this.props.history.push('/product/addupdate')}>
                 <Icon type='plus'></Icon>     {/* type类型是字符串格式的。 */}
-                添加
+                添加商品
             </Button>
         )
         return (
