@@ -1,4 +1,4 @@
-import { Card, Form, Icon, Input, Button } from 'antd'
+import { Card, Form, Icon, Input, Cascader, Button } from 'antd'
 import React, {Component} from 'react'
 import { reqCategorys } from '../../api'
 import LinkButton from '../../components/link-button'
@@ -11,11 +11,24 @@ class ProductAddUpdate extends Component {
         options: []
     }
 
+    initOptions = (categorys) => {
+        const options = categorys.map(c => ({
+            value: c._id,
+            label: c.name,
+            isLeaf: false,
+        }))
+        this.setState({options})
+    }
+
     getCategorys = async(parentId) => {
         const result = await reqCategorys(parentId)
         if (result.status === 0) {
             const categorys = result.data
-            this.initOptions(categorys)
+            if (parentId === '0'){
+                this.initOptions(categorys) //再单独创建一个initOptions（）函数。
+            }else {
+                return categorys
+            } 
         }
     }
 
@@ -27,26 +40,28 @@ class ProductAddUpdate extends Component {
         }
     }
 
-    loadData = selectedOptions => {
-        const targetOption = selectedOptions[selectedOptions.length - 1];
+    loadData = async selectedOptions => {
+        const targetOption = selectedOptions[0];
         targetOption.loading = true;
-    
-        // load options lazily
-        setTimeout(() => {
-          targetOption.loading = false;
-          targetOption.children = [
-            {
-              label: `${targetOption.label} Dynamic 1`,
-              value: 'dynamic1',
-            },
-            {
-              label: `${targetOption.label} Dynamic 2`,
-              value: 'dynamic2',
-            },
-          ];
-          setOptions([...options]);
-        }, 1000);
-      };
+
+        const subCategorys = await this.getCategorys(targetOption.value)
+        targetOption.loading = false
+
+        if (subCategorys && subCategorys.length > 0) {
+            const childOptions = subCategorys.map(c => ({
+                value: c._id,
+                label: c.name,
+                isLeaf: true,
+            }))
+            targetOption.children = childOptions
+        } else {
+            targetOption.isLeaf = true
+        }
+        this.setState({
+            options: [...this.state.options]
+        })
+    }
+        
 
     submit = () => {
         this.props.form.validateFields((value,error) => {
@@ -57,14 +72,14 @@ class ProductAddUpdate extends Component {
     }
 
     componentDidMount () {
-        getCategorys('0')
+        this.getCategorys('0')
     }
 
     render() {
         const title = (
             <span>
                 <LinkButton>
-                    <Icon type='arrow-left' style={{fontSize: 20}}></Icon>
+                    <Icon type='arrow-left' style={{fontSize: 20}} onClick={() => this.props.history.goBack()}></Icon>
                 </LinkButton>
                 <span>添加商品</span>
             </span>
@@ -106,8 +121,13 @@ class ProductAddUpdate extends Component {
                             })(<Input type='number' placeholder='请输入商品价格' addonAfter='元'></Input>)
                         }
                     </Item>
-                    <Item>
-                        <Cascader options={options} loadData={loadData} onChange={onChange} changeOnSelect />
+                    <Item label='商品分类'>
+                        <Cascader 
+                            options={this.state.options} 
+                            loadData={this.loadData} 
+                            /* onChange={onChange} 
+                            changeOnSelect  */
+                        />
                     </Item>
                     <Item>
                         <Button type='primary' onClick={this.submit}>提交</Button>
