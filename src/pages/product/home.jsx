@@ -57,7 +57,7 @@ export default class ProductHome extends Component {
                   return (
                     <span>
                       <LinkButton onClick={()=>this.props.history.push('/product/detail', {product})}>详情</LinkButton>    {/* push()内 传递的是字符串格式。  push()内传递两个参数，第一个参数是目标组件的路径，第二个参数是要传递给目标组件的数据。 */}
-                      <LinkButton>修改</LinkButton>
+                      <LinkButton onClick={()=>this.props.history.push('/product/addupdate', product)}>修改</LinkButton>
                     </span>
                   )
                 }

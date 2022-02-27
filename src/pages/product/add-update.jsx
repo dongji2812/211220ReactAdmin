@@ -2,6 +2,7 @@ import { Card, Form, Icon, Input, Cascader, Button } from 'antd'
 import React, {Component} from 'react'
 import { reqCategorys } from '../../api'
 import LinkButton from '../../components/link-button'
+import PicturesWall from './pictures-wall'
 
 const {Item} = Form
 const { TextArea } = Input
@@ -11,12 +12,25 @@ class ProductAddUpdate extends Component {
         options: []
     }
 
-    initOptions = (categorys) => {
+    initOptions = async (categorys) => {
         const options = categorys.map(c => ({
             value: c._id,
             label: c.name,
             isLeaf: false,
         }))
+
+        const {isUpdate, product} = this
+        const {pCategoryId} = product
+        if (isUpdate && pCategoryId !== '0') {//if内是个整体，表示是 修改情况下的二级分类下的商品。
+            const subCategorys = await this.getCategorys(pCategoryId)
+            const childOptions = subCategorys.map(c => ({
+                value: c._id,
+                label: c.name,
+                isLeaf: true
+            }))
+            const targetOption = options.find(option => option.value === pCategoryId)
+            targetOption.children = childOptions
+        }
         this.setState({options})
     }
 
@@ -51,7 +65,7 @@ class ProductAddUpdate extends Component {
             const childOptions = subCategorys.map(c => ({
                 value: c._id,
                 label: c.name,
-                isLeaf: true,
+                isLeaf: true
             }))
             targetOption.children = childOptions
         } else {
@@ -71,24 +85,45 @@ class ProductAddUpdate extends Component {
         })
     }
 
+    componentWillMount () {
+        const product = this.props.location.state
+        this.isUpdate = !!product
+        this.product = product || {} //注意一定要有||{}。
+    }
+
     componentDidMount () {
         this.getCategorys('0')
     }
 
     render() {
+        const {isUpdate, product} = this
+
+        const {pCategoryId, categoryId} = product
+        const categoryIds = []
+        if (isUpdate) {
+            if (pCategoryId === '0') {
+                categoryIds.push(categoryId)
+            } else {
+                categoryIds.push(pCategoryId)
+                categoryIds.push(categoryId)
+            } 
+        }
+
+        const formItemLayout = {
+            labelCol: { span: 2 },
+            wrapperCol: { span: 8 },
+        }
+
+        const {getFieldDecorator} = this.props.form
+
         const title = (
             <span>
                 <LinkButton>
                     <Icon type='arrow-left' style={{fontSize: 20}} onClick={() => this.props.history.goBack()}></Icon>
                 </LinkButton>
-                <span>添加商品</span>
+                <span>{isUpdate ? '修改商品' : '添加商品'}</span>
             </span>
         )
-        const formItemLayout = {
-            labelCol: { span: 2 },
-            wrapperCol: { span: 8 },
-        }
-        const {getFieldDecorator} = this.props.form
 
         return (
             <Card title={title}>
@@ -96,7 +131,7 @@ class ProductAddUpdate extends Component {
                     <Item label='商品名称'>
                         {
                             getFieldDecorator('name', {
-                                initialValue:'',
+                                initialValue: product.name,
                                 rules:[{required: true, message: '必须输入商品名称'}]
                             })(<Input placeholder='请输入商品名称'></Input>)
                         }
@@ -104,7 +139,7 @@ class ProductAddUpdate extends Component {
                     <Item label='商品描述'>
                         {
                             getFieldDecorator('desc', {
-                                initialValue:'',
+                                initialValue: product.desc,
                                 rules:[{required: true, message: '必须输入商品描述'}]
                             })(<TextArea placeholder='请输入商品描述' autoSize={{ minRows: 2, maxRows: 6 }}/>)
                         }
@@ -113,7 +148,7 @@ class ProductAddUpdate extends Component {
                     <Item label='商品价格'>
                         {
                             getFieldDecorator('price', {
-                                initialValue:'',
+                                initialValue: product.price,
                                 rules:[
                                     {required: true, message: '必须输入商品价格'},
                                     {validator: this.validatePrice}
@@ -122,12 +157,23 @@ class ProductAddUpdate extends Component {
                         }
                     </Item>
                     <Item label='商品分类'>
-                        <Cascader 
-                            options={this.state.options} 
-                            loadData={this.loadData} 
-                            /* onChange={onChange} 
-                            changeOnSelect  */
-                        />
+                        {
+                            getFieldDecorator('categoryIds', {
+                                initialValue: categoryIds,
+                                rules:[
+                                    {required: true, message: '必须选择商品分类'},
+                                ]
+                            })(<Cascader 
+                                placeholder='请选择商品分类'
+                                options={this.state.options} 
+                                loadData={this.loadData} 
+                                /* onChange={onChange} 
+                                changeOnSelect  */
+                            />)
+                        }
+                    </Item>
+                    <Item label='商品图片'>
+                        <PicturesWall/>
                     </Item>
                     <Item>
                         <Button type='primary' onClick={this.submit}>提交</Button>
