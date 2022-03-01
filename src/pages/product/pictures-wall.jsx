@@ -2,7 +2,7 @@ import React from 'react'
 import { Upload, Modal, message } from 'antd'
 
 
-export default class PicturesWall extends React.Component {
+export default class PicturesWall extends React.Component { 
     state = {
         previewVisible: false,
         previewImage: '', 
@@ -15,12 +15,12 @@ export default class PicturesWall extends React.Component {
         this.setState({
             previewImage: file.url || file.thumbUrl,   
             previewVisible: true,
-          })
+        })
     }
 
     handleChange = ({file, fileList}) => {
         if (file.status === 'done') {
-            const result = file.response
+            const result = file.response//这里特殊。它是通过response获取结果，其它是调用函数获取结果。
 
             if (result.status === 0) {
                 message.success('上传图片成功！')
@@ -34,6 +34,10 @@ export default class PicturesWall extends React.Component {
             } 
         }
         this.setState({fileList})
+    }
+
+    getImgs = () => {
+        return this.state.fileList.map(file => file.name) //是return。
     }
 
     render () {

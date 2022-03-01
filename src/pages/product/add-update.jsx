@@ -12,6 +12,11 @@ class ProductAddUpdate extends Component {
         options: []
     }
 
+    constructor() {
+        super(props)
+        this.pw = React.createRef()
+    }
+
     initOptions = async (categorys) => {
         const options = categorys.map(c => ({
             value: c._id,
@@ -80,6 +85,7 @@ class ProductAddUpdate extends Component {
     submit = () => {
         this.props.form.validateFields((value,error) => {
             if (!error) {
+                const imgs = this.pw.current.getImgs() //调用getImgs，加括号。
                 alert('发送ajax请求')
             }
         })
@@ -173,7 +179,7 @@ class ProductAddUpdate extends Component {
                         }
                     </Item>
                     <Item label='商品图片'>
-                        <PicturesWall/>
+                        <PicturesWall ref={this.pw}/>
                     </Item>
                     <Item>
                         <Button type='primary' onClick={this.submit}>提交</Button>
