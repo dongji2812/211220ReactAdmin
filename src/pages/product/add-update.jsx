@@ -12,7 +12,7 @@ class ProductAddUpdate extends Component {
         options: []
     }
 
-    constructor() {
+    constructor(props) {
         super(props)
         this.pw = React.createRef()
     }
@@ -104,7 +104,7 @@ class ProductAddUpdate extends Component {
     render() {
         const {isUpdate, product} = this
 
-        const {pCategoryId, categoryId} = product
+        const {pCategoryId, categoryId, imgs} = product
         const categoryIds = []
         if (isUpdate) {
             if (pCategoryId === '0') {
@@ -179,7 +179,7 @@ class ProductAddUpdate extends Component {
                         }
                     </Item>
                     <Item label='商品图片'>
-                        <PicturesWall ref={this.pw}/>
+                        <PicturesWall ref={this.pw} imgs={imgs}/>
                     </Item>
                     <Item>
                         <Button type='primary' onClick={this.submit}>提交</Button>

@@ -22,6 +22,8 @@ export const reqSearchProducts = ({pageNum, pageSize, searchType, searchName}) =
 
 export const reqUpdateStatus = (productId, status) => ajax(BASE + '/manage/product/updateStatus', {productId, status}, 'POST')
 
+export const reqDeleteImg = (name) => ajax(BASE + '/manage/img/delete', {name}, 'POST')
+
 export const reqWeather = (city) => { //没有调用函数，直接写函数体。  用jsonp解决 get类型请求 的跨域问题。
     return new Promise ((resolve, reject) => {
         const url = `http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=3p49MVra6urFRGOT9s8UBWr2`; //现在不能正常使用了。
