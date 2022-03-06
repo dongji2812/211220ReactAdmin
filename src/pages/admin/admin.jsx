@@ -23,7 +23,7 @@ export default class Admin extends Component{
             return <Redirect to='/login'/>
         }
         return (
-            <Layout style={{height: '100%'}}>
+            <Layout style={{minHeight: '100%'}}>   {/* 这样底部会一直显示footer。 */}
                 <Sider>
                     <LeftNav></LeftNav>
                 </Sider>
