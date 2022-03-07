@@ -86,7 +86,7 @@ class ProductAddUpdate extends Component {
         
 
     submit = () => {
-        this.props.form.validateFields(async (values,error) => {
+        this.props.form.validateFields(async (error, values) => { //注意error, values的顺序，一定不能变。
             if (!error) {
                 const {name, desc, price, categoryIds} = values
                 let pCategoryId, categoryId
