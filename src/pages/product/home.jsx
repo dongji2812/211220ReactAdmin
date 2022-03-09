@@ -56,8 +56,12 @@ export default class ProductHome extends Component {
               render: (product) => { //每个product是对象的形式。
                   return (
                     <span>
-                      <LinkButton onClick={()=>this.props.history.push('/product/detail', {product})}>详情</LinkButton>    {/* push()内 传递的是字符串格式。  push()内传递两个参数，第一个参数是目标组件的路径，第二个参数是要传递给目标组件的数据。 */}
+                      <LinkButton onClick={()=>this.props.history.push('/product/detail', {product})}>详情</LinkButton>    
+                      {/* push()内 传递的是字符串格式。  push()内传递两个参数，第一个参数是目标组件的路径，第二个参数是要传递给目标组件的数据。 
+                      第二个参数是整个的state，即this.props.location.state*/}
                       <LinkButton onClick={()=>this.props.history.push('/product/addupdate', product)}>修改</LinkButton>
+                      {/* 加{}取的时候需要.product 即const {xx} = this.props.location.state.product */}
+                      {/* 不加{}取的时候直接const {xx} = this.props.location.state */}
                     </span>
                   )
                 }
@@ -72,7 +76,8 @@ export default class ProductHome extends Component {
         const {searchType, searchName} = this.state
         let result
         if (searchName) {
-            result = await reqSearchProducts({pageNum, pageSize:PAGE_SIZE, searchType, searchName}) //reqSearchProducts一个参数，是对象的形式。   对象中，有的属性值可简写。
+            result = await reqSearchProducts({pageNum, pageSize:PAGE_SIZE, searchType, searchName}) 
+            //reqSearchProducts一个参数，是对象的形式。   对象中，有的属性值可简写。
         } else {
             result = await reqProducts(pageNum, PAGE_SIZE) //reqProducts两个参数。
         }
@@ -122,7 +127,8 @@ export default class ProductHome extends Component {
                 onChange={event => this.setState({searchName: event.target.value})} //input框的内容发生改变时（value发生改变时），变量searchName改变。
                 >
                 </Input>
-                <Button type='primary' onClick={() => this.getProducts(1)}>搜索</Button>    {/* 调用该函数，传递的实参都是1，展示pageNum=1的结果，即第一页的结果。    展示其他页，页码切换，用的是table的onchange函数。 */}
+                <Button type='primary' onClick={() => this.getProducts(1)}>搜索</Button>   
+                {/* 调用该函数，传递的实参都是1，展示pageNum=1的结果，即第一页的结果。    展示其他页，页码切换，用的是table的onchange函数。 */}
             </span>
         )
         const extra = (
@@ -143,7 +149,8 @@ export default class ProductHome extends Component {
                 total,
                 defaultPageSize: PAGE_SIZE,
                 showQuickJumper: true,
-                onChange: this.getProducts //onChange的值是个函数。如果值是函数，那么意思就是回调函数。     回调函数传入的形参就是调用函数的实参，所以这里简写成这样。
+                onChange: this.getProducts 
+                //onChange的值是个函数。如果值是函数，那么意思就是回调函数。     回调函数传入的形参就是调用函数的实参，所以这里简写成这样。
             }} 
             />
             </Card>

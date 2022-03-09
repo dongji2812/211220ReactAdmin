@@ -37,7 +37,8 @@ class Header extends Component {
             if (item.key === path) {
                 title = item.title
             } else if (item.children) {
-                const cItem = item.children.find(cItem => cItem.key === path)//item.children数组的find（）方法。
+                //const cItem = item.children.find(cItem => cItem.key === path)
+                const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0)//item.children数组的find（）方法。  修正过。
                 if (cItem) {
                     title = cItem.title //是cItem.title不是item.children.title。
                 }

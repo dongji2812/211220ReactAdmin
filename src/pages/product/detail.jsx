@@ -11,14 +11,14 @@ export default class ProductDetail extends Component {
         cName1: '',
         cName2: ''
     }
-   async componentDidMount () {
+    async componentDidMount () {
         const {pCategoryId, categoryId} = this.props.location.state.product
         if (pCategoryId === '0') {
             const result = await reqCategory(categoryId)
             const cName1 = result.data.name
             this.setState({cName1})
         } else {
-            const results = Promise.all([reqCategory(pCategoryId), reqCategory(categoryId)])
+            const results = await Promise.all([reqCategory(pCategoryId), reqCategory(categoryId)])
             const cName1 = results[0].data.name
             const cName2 = results[1].data.name
             this.setState({cName1,cName2})
@@ -67,7 +67,7 @@ export default class ProductDetail extends Component {
                             {
                                 imgs.map(img => 
                                     <img
-                                        /* key={img}  不写也没报错，写不写这个有区别吗？？*/  
+                                        key={img}  /*需要写的。不写报错*/  
                                         className='product-img' 
                                         src={BASE_IMG_URL + img} 
                                         alt="img" 

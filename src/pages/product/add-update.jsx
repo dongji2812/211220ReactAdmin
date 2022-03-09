@@ -30,7 +30,8 @@ class ProductAddUpdate extends Component {
         const {isUpdate, product} = this
         const {pCategoryId} = product
         if (isUpdate && pCategoryId !== '0') {//if内是个整体，表示是 修改情况下的二级分类下的商品。
-            const subCategorys = await this.getCategorys(pCategoryId)
+            const subCategorys = await this.getCategorys(pCategoryId) 
+            //await后面是一个promise对象。如果有一个promise对象，那么await promise对象，就可以直接取到promise对象的结果值。
             const childOptions = subCategorys.map(c => ({
                 value: c._id,
                 label: c.name,
@@ -66,7 +67,8 @@ class ProductAddUpdate extends Component {
         const targetOption = selectedOptions[0];
         targetOption.loading = true;
 
-        const subCategorys = await this.getCategorys(targetOption.value)
+        const subCategorys = await this.getCategorys(targetOption.value) 
+        //await后面是一个promise对象。如果有一个promise对象，那么await promise对象，就可以直接取到promise对象的结果值。
         targetOption.loading = false
 
         if (subCategorys && subCategorys.length > 0) {
@@ -107,10 +109,10 @@ class ProductAddUpdate extends Component {
 
                 const result = await reqAddOrUpdateProduct(product)
                 if (result.status === 0) {
-                    message.success(`${this.isUpdate? '修改': '添加'} 商品成功！`)
+                    message.success(`${this.isUpdate? '修改': '添加'}商品成功！`)
                     this.props.history.goBack()
                 } else {
-                    message.error(`${this.isUpdate? '修改': '添加'} 商品失败！`)
+                    message.error(`${this.isUpdate? '修改': '添加'}商品失败！`)
                 }
             }
         })
@@ -158,7 +160,7 @@ class ProductAddUpdate extends Component {
 
         return (
             <Card title={title}>
-                <Form {...formItemLayout}>
+                <Form {...formItemLayout}> {/* 这里formItemLayout指定在form上。也可以单独指定在某个item上，表示该item特别的配置。 */}
                     <Item label='商品名称'>
                         {
                             getFieldDecorator('name', {

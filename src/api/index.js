@@ -19,6 +19,7 @@ export const reqCategory = (categoryId) => ajax(BASE + '/manage/category/info', 
 export const reqProducts = (pageNum, pageSize) => ajax(BASE + '/manage/product/list', {pageNum, pageSize});
 
 export const reqSearchProducts = ({pageNum, pageSize, searchType, searchName}) => ajax(BASE + '/manage/product/search', {pageNum, pageSize, [searchType]:searchName})
+//函数的输入 是四个参数，函数实际调用是三对属性名和属性值。
 
 export const reqUpdateStatus = (productId, status) => ajax(BASE + '/manage/product/updateStatus', {productId, status}, 'POST')
 
