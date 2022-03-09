@@ -109,7 +109,7 @@ class ProductAddUpdate extends Component {
 
                 const result = await reqAddOrUpdateProduct(product)
                 if (result.status === 0) {
-                    message.success(`${this.isUpdate? '修改': '添加'}商品成功！`)
+                    message.success(`${this.isUpdate? '修改': '添加'}商品成功！`) //``内是模板字符串，通过`${变量} 文字`可拼接变量和文字。
                     this.props.history.goBack()
                 } else {
                     message.error(`${this.isUpdate? '修改': '添加'}商品失败！`)
