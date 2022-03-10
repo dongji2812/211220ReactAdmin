@@ -11,8 +11,10 @@ export const repLogin = (username, password) => ajax(BASE + '/login', {username,
 export const reqCategorys = (parentId) => ajax(BASE + '/manage/category/list', {parentId});
 
 export const reqAddCategory = (parentId, categoryName) => ajax(BASE + '/manage/category/add', {parentId, categoryName}, 'POST');
+//要求输入参数 和 (parentId, categoryName) 顺序一致。
 
 export const reqUpdateCategory = ({categoryId, categoryName}) => ajax(BASE + '/manage/category/update', {categoryId, categoryName}, 'POST');
+//要求输入参数 和 ({categoryId, categoryName}) 名字一致。
 
 export const reqCategory = (categoryId) => ajax(BASE + '/manage/category/info', {categoryId});
 
@@ -26,6 +28,12 @@ export const reqUpdateStatus = (productId, status) => ajax(BASE + '/manage/produ
 export const reqDeleteImg = (name) => ajax(BASE + '/manage/img/delete', {name}, 'POST')
 
 export const reqAddOrUpdateProduct = (product) => ajax(BASE + '/manage/product/' + (product._id? 'update' : 'add'), product, 'POST') //(product)中 product是对象的格式。
+
+export const reqRoles = () => ajax(BASE + '/manage/role/list')
+
+export const reqAddRole = (roleName) => ajax(BASE + '/manage/role/add', {roleName}, 'POST')
+
+export const reqUpdateRole = (role) => ajax(BASE + '/manage/role/update', role, 'POST')
 
 export const reqWeather = (city) => { //没有调用函数，直接写函数体。  用jsonp解决 get类型请求 的跨域问题。
     return new Promise ((resolve, reject) => {

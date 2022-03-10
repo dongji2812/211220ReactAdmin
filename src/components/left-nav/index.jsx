@@ -71,7 +71,7 @@ class LeftNav extends Component {
         },[])
     }
 
-    componentWillMount () {
+    componentWillMount () { //在componentWillMount ()中 这样渲染一次就行。 不用在render中每次都渲染列表。
         this.menuNodes = this.getMenuNodes_reduce(menuList)
     }    
 

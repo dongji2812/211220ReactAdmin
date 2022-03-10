@@ -163,9 +163,9 @@ export default class Category extends Component {
                     onOk={this.addCategory} 
                     onCancel={this.handleCancel}>
                         <AddForm //父组件是Category，子组件是AddForm。子组件向父组件传递form。      Modal并不是组件。
-                        parentId={parentId}
-                        categorys={categorys}
-                        setForm={(form) => {this.form = form}}
+                            parentId={parentId}
+                            categorys={categorys}
+                            setForm={(form) => {this.form = form}}
                         /> 
                 </Modal>
 
