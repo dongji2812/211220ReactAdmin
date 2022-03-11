@@ -4,6 +4,8 @@ import {PAGE_SIZE} from '../../utils/constants'
 import {reqRoles, reqAddRole, reqUpdateRole} from '../../api'
 import AddForm from './add-form'
 import AuthForm from './auth-form'
+import memoryUtils from "../../utils/memoryUtils"
+import {formateDate} from '../../utils/dateUtils'
  
 export default class Role extends Component {
 
@@ -29,10 +31,12 @@ export default class Role extends Component {
             {
                 title: '创建时间',
                 dataIndex: 'create_time',
+                render: formateDate //本来是 (create_time) => formateDate(create_time) 。
             },
             {
                 title: '授权时间',
                 dataIndex: 'auth_time',
+                render: formateDate
             },
             {
                 title: '授权人',
@@ -88,8 +92,10 @@ export default class Role extends Component {
         const role = this.state.role
         const menus = this.auth.current.getMenus()
         role.menus = menus
+        role.auth_time = Date.now() //接口函数 根据Date.now()返回 授权时间的默认结果，再通过formateDate函数 格式化时间。
+        role.auth_name = memoryUtils.user.username
 
-        const result = await reqUpdateRole(role)
+        const result = await reqUpdateRole(role) //传入的role是对象的形式。
         if (result.status === 0) {
             message.success('设置角色权限成功！')
             this.setState({

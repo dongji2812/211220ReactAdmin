@@ -42,6 +42,11 @@ export default class AuthForm extends Component {//Role是父组件，AuthForm�
     componentWillMount () {
         this.treeNodes = this.getTreeNodes(menuList)
     }
+
+    componentWillReceiveProps (nextProps) { //初始显示时不会调用，后续每打开一个角色，保证 都是该角色对应的menus。
+        const {menus} = nextProps.role
+        this.setState({checkedKeys: menus})
+    }
     
     render() {
 
