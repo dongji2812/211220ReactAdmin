@@ -42,7 +42,7 @@ export default class Category extends Component {
         if (result.status === 0) {
             const categorys = result.data
             if (parentId === '0') {
-                this.setState({categorys: categorys})
+                this.setState({categorys: categorys}) //在await promise后执行，相当于在promise对象 成功的回调内 执行。所以这里是同步更新状态。
             } else {
                 this.setState({subCategorys: categorys})
             }

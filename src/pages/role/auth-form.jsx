@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import { Form, Input, Tree } from 'antd'
 import PropTypes from 'prop-types'
 import menuList from '../../config/menuConfig'
@@ -6,7 +6,7 @@ import menuList from '../../config/menuConfig'
 const Item = Form.Item
 const { TreeNode } = Tree
 
-export default class AuthForm extends Component {//Role是父组件，AuthForm是子组件。 父组件要取子组件中的内容。
+export default class AuthForm extends PureComponent {//Role是父组件，AuthForm是子组件。 父组件要取子组件中的内容。
 
     static propTypes = {
         role: PropTypes.object
