@@ -7,7 +7,7 @@ import AuthForm from './auth-form'
 import memoryUtils from "../../utils/memoryUtils"
 import {formateDate} from '../../utils/dateUtils'
  
-export default class Role extends Component {
+export default class Role extends Component {//admin不占有角色，也不占有用户。
 
     state = {
         roles: [],
@@ -65,7 +65,7 @@ export default class Role extends Component {
         }
     }
 
-    addRole = () => {
+    addRole = () => {//三步走。
         this.form.validateFields(async (error, values) => {
             if (!error) {
                 const {roleName} = values
@@ -76,8 +76,8 @@ export default class Role extends Component {
                     message.success('添加角色成功！')
 
                     const role = result.data
-                    this.setState(state => ({ //state => ({})注意这里的()。
-                        roles: [...this.state.roles, role]
+                    this.setState(state => ({ //函数形式的state => ({})    注意这里的()。
+                        roles: [...state.roles, role]
                     }))
                 } else {
                     message.error('添加角色失败！')
@@ -89,7 +89,7 @@ export default class Role extends Component {
     }
 
     updateRole = async () => {
-        const role = this.state.role
+        const role = this.state.role //得到的role是对象的形式。
         const menus = this.auth.current.getMenus()
         role.menus = menus
         role.auth_time = Date.now() //接口函数 根据Date.now()返回 授权时间的默认结果，再通过formateDate函数 格式化时间。

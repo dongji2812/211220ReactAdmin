@@ -14,14 +14,17 @@ import Bar from '../../pages/charts/bar'
 import Line from '../../pages/charts/line'
 import Pie from '../../pages/charts/pie'
 
-const { Footer, Sider, Content } = Layout;
+const { Footer, Sider, Content } = Layout
 
 export default class Admin extends Component{
+
     render () {
-        const user = memoryUtils.user;
+        const user = memoryUtils.user
+
         if (!user || !user._id) {
             return <Redirect to='/login'/>
         }
+        
         return (
             <Layout style={{minHeight: '100%'}}>   {/* 这样底部会一直显示footer。 */}
                 <Sider>
