@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+//import { Button, message } from 'antd'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Login from './pages/login/login'
+import Admin from './pages/admin/admin'
+
+// 应用根组件
+
+//创建类组件 并暴露出去
+export default class App extends React.Component{//react所有组件名首字母必须大写，如App。   Component是react的属性。
+    render(){
+        return (
+            <BrowserRouter>
+              <Switch>{/* 只匹配其中一个 */}
+                  <Route path='/login' component={Login}></Route> {/* login是路由组件，表示登陆页面 */}
+                  <Route path='/' component={Admin}></Route> {/* admin是路由组件，表示后台管理主页页面 */}
+              </Switch>
+            </BrowserRouter>
+        )  
+    }
 }
-
-export default App;
