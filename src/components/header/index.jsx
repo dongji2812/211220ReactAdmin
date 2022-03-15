@@ -8,7 +8,7 @@ import memoryUtils from '../../utils/memoryUtils'
 import storageUtils from '../../utils/storageUtils'
 import { reqWeather } from '../../api/index'
 import menuList from '../../config/menuConfig'
-import { Modal} from 'antd';
+import { Modal} from 'antd'
 
 
 class Header extends Component {
@@ -21,7 +21,7 @@ class Header extends Component {
     getTime = () => {
         this.intervalID = setInterval(()=>{
           const currentTime = formateDate(Date.now());
-          this.setState({currentTime});
+          this.setState({currentTime})
         },1000)
     }
 
@@ -31,7 +31,7 @@ class Header extends Component {
     }
 
     getTitle = () => {
-        const path = this.props.location.pathname;
+        const path = this.props.location.pathname
         let title
         menuList.forEach( item => { //遍历menuList数组。
             if (item.key === path) {
@@ -52,19 +52,19 @@ class Header extends Component {
             title: '确定退出吗?',
             onOk: () => {
             //   console.log('OK');
-            storageUtils.removeUser();
-            memoryUtils.user = {};
+            storageUtils.removeUser()
+            memoryUtils.user = {}
             this.props.history.replace('/login')
             }
-/*             onCancel() {
+            /*onCancel() {
               console.log('Cancel');
             }, */
-          });
+          })
     }
 
     componentDidMount () {
-        this.getTime();
-        this.getWeather();
+        this.getTime()
+        this.getWeather()
     }
 
     componentWillUnmount () { //清除定时器。否则退出后 会有报错。
@@ -72,9 +72,9 @@ class Header extends Component {
     }
 
     render() {
-        const {currentTime, dayPictureUrl, weather} = this.state;
-        const username = memoryUtils.user.username;
-        const title = this.getTitle();
+        const {currentTime, dayPictureUrl, weather} = this.state
+        const username = memoryUtils.user.username
+        const title = this.getTitle()
 
         return (
             <div className='header'>
