@@ -6,6 +6,7 @@ import AddForm from './add-form'
 import AuthForm from './auth-form'
 import memoryUtils from "../../utils/memoryUtils"
 import {formateDate} from '../../utils/dateUtils'
+import storageUtils from '../../utils/storageUtils'
  
 export default class Role extends Component {//admin不占有角色，也不占有用户。
 
@@ -55,7 +56,7 @@ export default class Role extends Component {//admin不占有角色，也不占�
         }    
     }
 
-    onRow = (role) => {
+    onRow = (role) => { //选中某行的时候，把该行role的信息赋值给state中的role。
         return {
             onClick: event => {
                 this.setState({
@@ -76,7 +77,8 @@ export default class Role extends Component {//admin不占有角色，也不占�
                     message.success('添加角色成功！')
 
                     const role = result.data
-                    this.setState(state => ({ //函数形式的state => ({})    注意这里的()。
+                    this.setState(state => ({ //注意这里的()。
+                        //函数的返回值是对象，如果写成箭头函数的话 形式为() => ({})。
                         roles: [...state.roles, role]
                     }))
                 } else {
@@ -97,10 +99,17 @@ export default class Role extends Component {//admin不占有角色，也不占�
 
         const result = await reqUpdateRole(role) //传入的role是对象的形式。
         if (result.status === 0) {
-            message.success('设置角色权限成功！')
-            this.setState({
-                roles: [...this.state.roles]
-            })
+            if (role._id === memoryUtils.user.role._id) {
+                memoryUtils.user = {}
+                storageUtils.removeUser()
+                this.props.history.replace('/login')
+                message.success('当前用户的角色权限已更改，请重新登录')
+            } else {
+                message.success('设置角色权限成功！')
+                this.setState({
+                    roles: [...this.state.roles]
+                })
+            } 
         }
         this.setState({isShowAuth: false})   
     }
@@ -130,7 +139,17 @@ export default class Role extends Component {//admin不占有角色，也不占�
                     dataSource={roles}  
                     columns={this.columns}
                     pagination={{defaultPageSize: PAGE_SIZE}}
-                    rowSelection={{type: 'radio', selectedRowKeys: [role._id]}}
+                    rowSelection={{ //rowSelection代表 表格行是否可选择。 下面的几对属性名和属性值 是它的配置项。
+                        type: 'radio', 
+                        selectedRowKeys: [role._id],
+                        onSelect: (role) => { //onSelect的值是个函数。
+                            this.setState({
+                                role
+                            })
+                        } 
+                    }}
+                    //selectedRowKeys选中的流程是：点击行 或者 点击radio单选框后，把该行role的信息 赋值给 state中的role。
+                    //selectedRowKeys根据 从state中取出的该行role的_id 选中该行。
                     onRow={this.onRow}
                 />
 

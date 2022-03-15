@@ -105,7 +105,8 @@ export default class ProductHome extends Component {
     }
 
     componentDidMount () {
-        this.getProducts(1) //调用该函数，传递的实参都是1，展示pageNum=1的结果，即第一页的结果。    展示其他页，页码切换，用的是table的onchange函数。
+        this.getProducts(1) 
+        //调用该函数，传递的实参都是1，展示pageNum=1的结果，即第一页的结果。    展示其他页，页码切换，用的是table的onchange函数。
     }
 
     render() {
@@ -124,7 +125,8 @@ export default class ProductHome extends Component {
                 placeholder='请输入关键字' 
                 value={searchName} //Input的默认值 是变量searchName。
                 style={{width:150, margin:'0 15px'}} 
-                onChange={event => this.setState({searchName: event.target.value})} //input框的内容发生改变时（value发生改变时），变量searchName改变。
+                onChange={event => this.setState({searchName: event.target.value})} 
+                //input框的内容发生改变时（value发生改变时），变量searchName改变。
                 >
                 </Input>
                 <Button type='primary' onClick={() => this.getProducts(1)}>搜索</Button>   
@@ -140,18 +142,19 @@ export default class ProductHome extends Component {
         return (
             <Card title={title} extra={extra}>
             <Table
-            bordered
-            loading={loading}
-            rowKey='_id' 
-            dataSource={products} 
-            columns={this.columns}
-            pagination={{
-                total,
-                defaultPageSize: PAGE_SIZE,
-                showQuickJumper: true,
-                onChange: this.getProducts 
-                //onChange的值是个函数。如果值是函数，那么意思就是回调函数。     回调函数传入的形参就是调用函数的实参，所以这里简写成这样。
-            }} 
+                bordered
+                loading={loading}
+                rowKey='_id' 
+                dataSource={products} 
+                columns={this.columns}
+                pagination={{
+                    current: this.pageNum,
+                    total,
+                    defaultPageSize: PAGE_SIZE,
+                    showQuickJumper: true,
+                    onChange: this.getProducts 
+                    //onChange的值是个函数。如果值是函数，那么意思就是回调函数。     回调函数传入的形参就是调用函数的实参，所以这里简写成这样。
+                }} 
             />
             </Card>
         )

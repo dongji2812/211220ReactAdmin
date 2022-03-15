@@ -2,10 +2,11 @@ import React, {Component} from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import './index.less'
 import logo from '../../assets/images/logo.png'
-import { Menu, Icon } from 'antd';
+import { Menu, Icon } from 'antd'
 import menuList from '../../config/menuConfig'
+import memoryUtils from '../../utils/memoryUtils'
 
-const { SubMenu } = Menu;
+const { SubMenu } = Menu
 
 class LeftNav extends Component {
 
@@ -35,38 +36,53 @@ class LeftNav extends Component {
         })
     } */
 
+    hasAuth = (item) => {
+        const {key, isPublic} = item //menuList是数组，每个item是个对象。
+        const username = memoryUtils.user.username
+        const menus = memoryUtils.user.role.menus//打开网页的Local Storage发现user包含role属性，其属性值是menus数组。
+
+        if (username === 'admin' || isPublic || menus.indexOf(key) !== -1) {
+            return true
+        } else if(item.children) { //item.children是数组，每个child是个对象。
+            return !!item.children.find(child => menus.indexOf(child.key) !== -1)
+        }
+        return false
+    }
+
     getMenuNodes_reduce = (menuList) => {
         const path = this.props.location.pathname
 
         return menuList.reduce((pre, item) => {
-            if (!item.children) {
-                pre.push((
-                    <Menu.Item key={item.key}>
-                        <Link to={item.key}>
-                            <Icon type={item.icon}></Icon>
-                            <span>{item.title}</span>
-                        </Link>
-                  </Menu.Item>                                       
-                ))
-            } else {
-                /* const cItem = item.children.find(cItem => cItem.key === path) */
-                const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0) //修正过。
-                if (cItem) {
-                    this.openKey = item.key;
-                }
-                pre.push((
-                    <SubMenu 
-                        key={item.key} 
-                        title={
-                            <span>
+            if (this.hasAuth(item)) { //每个数组元素item 都要判断是否满足this.hasAuth()。
+                if (!item.children) {
+                    pre.push((
+                        <Menu.Item key={item.key}>
+                            <Link to={item.key}>
                                 <Icon type={item.icon}></Icon>
                                 <span>{item.title}</span>
-                            </span>
-                        }>
-                        {this.getMenuNodes_reduce(item.children)}     {/* 递归调用。 */}
-                    </SubMenu>                   
-                ))
-            }
+                            </Link>
+                      </Menu.Item>                                       
+                    ))
+                } else {
+                    /* const cItem = item.children.find(cItem => cItem.key === path) */
+                    const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0) //修正过。
+                    if (cItem) {
+                        this.openKey = item.key;
+                    }
+                    pre.push((
+                        <SubMenu 
+                            key={item.key} 
+                            title={
+                                <span>
+                                    <Icon type={item.icon}></Icon>
+                                    <span>{item.title}</span>
+                                </span>
+                            }>
+                            {this.getMenuNodes_reduce(item.children)}     {/* 递归调用。 */}
+                        </SubMenu>                   
+                    ))
+                }
+            }  
             return pre;//注意 向数组中push东西后 一定要return数组。            
         },[])
     }
