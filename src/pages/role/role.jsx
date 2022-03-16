@@ -78,7 +78,7 @@ export default class Role extends Component {//admin不占有角色，也不占�
 
                     const role = result.data
                     this.setState(state => ({ //注意这里的()。
-                        //函数的返回值是对象，如果写成箭头函数的话 形式为() => ({})。
+                        //箭头函数的返回值是对象，形式为() => ({})
                         roles: [...state.roles, role]
                     }))
                 } else {
