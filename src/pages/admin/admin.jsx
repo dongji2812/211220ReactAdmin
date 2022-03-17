@@ -1,10 +1,10 @@
-import React,{Component} from "react";
-import { Redirect, Route, Switch} from "react-router-dom";
-import memoryUtils from "../../utils/memoryUtils";
-import { Layout } from 'antd';
+import React,{Component} from "react"
+import { Redirect, Route, Switch} from "react-router-dom"
+import memoryUtils from "../../utils/memoryUtils"
+import { Layout } from 'antd'
+
 import LeftNav from '../../components/left-nav'//在下面 作为标签使用。
 import Header from '../../components/header'//在下面 作为标签使用。
-
 import Home from '../../pages/home/home' //Home在下面作为组件使用。共八个。
 import Category from '../../pages/category/category'
 import Product from '../../pages/product/product'

@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
 import { withRouter } from 'react-router-dom'
+import { Modal} from 'antd'
+import {connect} from 'react-redux'
+
 import { formateDate } from '../../utils/dateUtils'
 import LinkButton from '../link-button' //在下面 作为标签使用。 
 import './index.less'
@@ -8,7 +11,6 @@ import memoryUtils from '../../utils/memoryUtils'
 import storageUtils from '../../utils/storageUtils'
 import { reqWeather } from '../../api/index'
 import menuList from '../../config/menuConfig'
-import { Modal} from 'antd'
 
 
 class Header extends Component {
@@ -74,7 +76,8 @@ class Header extends Component {
     render() {
         const {currentTime, dayPictureUrl, weather} = this.state
         const username = memoryUtils.user.username
-        const title = this.getTitle()
+        //const title = this.getTitle()
+        const title =this.props.headTitle
 
         return (
             <div className='header'>
@@ -94,4 +97,7 @@ class Header extends Component {
         )
     }
 }
-export default withRouter(Header)
+export default connect(
+    state => ({headTitle: state.headTitle}),
+    {}
+)(withRouter(Header))

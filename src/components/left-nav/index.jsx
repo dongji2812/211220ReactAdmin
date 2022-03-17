@@ -1,10 +1,13 @@
 import React, {Component} from 'react'
 import { Link, withRouter } from 'react-router-dom'
+import { Menu, Icon } from 'antd'
+import {connect} from 'react-redux'
+
 import './index.less'
 import logo from '../../assets/images/logo.png'
-import { Menu, Icon } from 'antd'
 import menuList from '../../config/menuConfig'
 import memoryUtils from '../../utils/memoryUtils'
+import {setHeadTitle} from '../../redux/actions'
 
 const { SubMenu } = Menu
 
@@ -55,9 +58,12 @@ class LeftNav extends Component {
         return menuList.reduce((pre, item) => {
             if (this.hasAuth(item)) { //每个数组元素item 都要判断是否满足this.hasAuth()。
                 if (!item.children) {
+                    if (item.key === path || path.indexOf(item.key) === 0){    //不仅点击，路径匹配的时候也要更新redux状态。
+                        this.props.setHeadTitle(item.title)
+                    }
                     pre.push((
                         <Menu.Item key={item.key}>
-                            <Link to={item.key}>
+                            <Link to={item.key} onClick={() => this.props.setHeadTitle(item.title)}> {/* 点击的时候更新redux状态。*/}
                                 <Icon type={item.icon}></Icon>
                                 <span>{item.title}</span>
                             </Link>
@@ -118,4 +124,7 @@ class LeftNav extends Component {
         )
     }
 }
-export default withRouter(LeftNav)
+export default connect(
+    state => ({}),
+    {setHeadTitle}
+)(withRouter(LeftNav))

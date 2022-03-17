@@ -4,7 +4,7 @@ import ajax from './ajax'
 
 const BASE = '';
 
-export const repLogin = (username, password) => ajax(BASE + '/login', {username, password}, 'POST'); //调用ajax函数。
+export const reqLogin = (username, password) => ajax(BASE + '/login', {username, password}, 'POST'); //调用ajax函数。
 
 //export const repAddUser = (user) => ajax(BASE + '/manage/user/add', user, 'POST');
 
