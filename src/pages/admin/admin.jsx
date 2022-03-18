@@ -1,7 +1,8 @@
 import React,{Component} from "react"
 import { Redirect, Route, Switch} from "react-router-dom"
-import memoryUtils from "../../utils/memoryUtils"
+//import memoryUtils from "../../utils/memoryUtils"
 import { Layout } from 'antd'
+import {connect} from 'react-redux'
 
 import LeftNav from '../../components/left-nav'//在下面 作为标签使用。
 import Header from '../../components/header'//在下面 作为标签使用。
@@ -16,10 +17,11 @@ import Pie from '../../pages/charts/pie'
 
 const { Footer, Sider, Content } = Layout
 
-export default class Admin extends Component{
+class Admin extends Component{
 
     render () {
-        const user = memoryUtils.user
+        //const user = memoryUtils.user
+        const user = this.props.user
 
         if (!user || !user._id) {
             return <Redirect to='/login'/>
@@ -53,3 +55,7 @@ export default class Admin extends Component{
         )
     }
 }
+export default connect(
+    state => ({user: state.user}),
+    {}
+)(Admin)

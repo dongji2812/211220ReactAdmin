@@ -1,14 +1,17 @@
 import React, {Component} from 'react'
 import {Card, Button, Table, Modal, message} from 'antd'
+import {connect} from 'react-redux'
+
 import {PAGE_SIZE} from '../../utils/constants'
 import {reqRoles, reqAddRole, reqUpdateRole} from '../../api'
 import AddForm from './add-form'
 import AuthForm from './auth-form'
-import memoryUtils from "../../utils/memoryUtils"
+//import memoryUtils from "../../utils/memoryUtils"
 import {formateDate} from '../../utils/dateUtils'
-import storageUtils from '../../utils/storageUtils'
+//import storageUtils from '../../utils/storageUtils'
+import {logout} from '../../redux/actions'
  
-export default class Role extends Component {//admin不占有角色，也不占有用户。
+class Role extends Component {//admin不占有角色，也不占有用户。
 
     state = {
         roles: [],
@@ -95,14 +98,17 @@ export default class Role extends Component {//admin不占有角色，也不占�
         const menus = this.auth.current.getMenus()
         role.menus = menus
         role.auth_time = Date.now() //接口函数 根据Date.now()返回 授权时间的默认结果，再通过formateDate函数 格式化时间。
-        role.auth_name = memoryUtils.user.username
+        //role.auth_name = memoryUtils.user.username
+        role.auth_name = this.props.user.username
 
         const result = await reqUpdateRole(role) //传入的role是对象的形式。
         if (result.status === 0) {
-            if (role._id === memoryUtils.user.role._id) {
-                memoryUtils.user = {}
+            //if (role._id === memoryUtils.user.role._id) {
+            if (role._id === this.props.user.role._id) {
+                /* memoryUtils.user = {}
                 storageUtils.removeUser()
-                this.props.history.replace('/login')
+                this.props.history.replace('/login') */
+                this.props.logout()
                 message.success('当前用户的角色权限已更改，请重新登录')
             } else {
                 message.success('设置角色权限成功！')
@@ -181,3 +187,7 @@ export default class Role extends Component {//admin不占有角色，也不占�
         )
     }
 }
+export default connect(
+    state => ({user: state.user}),
+    {logout}
+)(Role)

@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux'
 
 import storageUtils from '../utils/storageUtils'
-import {SET_HEAD_TITLE, RECEIVE_USER, SHOW_ERROR_MSG} from './action-types'
+import {SET_HEAD_TITLE, RECEIVE_USER, SHOW_ERROR_MSG, RESET_USER} from './action-types'
 
 const initHead = '首页'
 function headTitle(state = initHead, action) {
@@ -21,6 +21,8 @@ function user(state = initUser, action) {
         case SHOW_ERROR_MSG:
             const errorMsg = action.errorMsg
             return {...state, errorMsg} //把最开始输入的state解构，并添加errorMsg后 构成新对象。
+        case RESET_USER:
+            return {}
         default: 
             return state
     }

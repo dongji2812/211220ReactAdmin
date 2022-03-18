@@ -115,9 +115,9 @@ class Login extends Component{
 const WrapLogin = Form.create()(Login)
 export default connect( 
     //connect传两个参数。
-    //第一个参数是一般属性，第一个参数是函数的形式。一般用于读取redux中的状态数据。简称读。    数据来自于总reducer的总state。 
-    //第二个参数是函数属性，第二个参数是对象的形式。一般用于更新redux中的状态数据。简称写。    函数来自于对action creator的包装。
+    //第一个参数是一般属性，第一个参数是函数的形式。一般用于读取redux中的状态数据。简称读。  数据来自于总reducer的总state。 
+    //第二个参数是函数属性，第二个参数是对象的形式。一般用于更新redux中的状态数据。简称写。  函数来自于对actions中 同步action对象/异步action函数 的包装。
     //调用函数后，（先dispatch） 然后reducer，这样完成redux中状态的更新。
-    state => ({user: state.user}), //箭头函数参数是state，因为函数体中要用到state.user。
+    state => ({user: state.user}), //箭头函数参数是state，这里的state指的是总reducer的总state。因为函数体中要用到state.user。
     {login}
 )(WrapLogin)

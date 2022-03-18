@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 import './index.less'
 import logo from '../../assets/images/logo.png'
 import menuList from '../../config/menuConfig'
-import memoryUtils from '../../utils/memoryUtils'
+//import memoryUtils from '../../utils/memoryUtils'
 import {setHeadTitle} from '../../redux/actions'
 
 const { SubMenu } = Menu
@@ -41,8 +41,10 @@ class LeftNav extends Component {
 
     hasAuth = (item) => {
         const {key, isPublic} = item //menuList是数组，每个item是个对象。
-        const username = memoryUtils.user.username
-        const menus = memoryUtils.user.role.menus//打开网页的Local Storage发现user包含role属性，其属性值是menus数组。
+        //const username = memoryUtils.user.username
+        //const menus = memoryUtils.user.role.menus 打开网页的Local Storage发现user包含role属性，其属性值是menus数组。
+        const username = this.props.user.username
+        const menus = this.props.user.role.menus
 
         if (username === 'admin' || isPublic || menus.indexOf(key) !== -1) {
             return true
@@ -125,6 +127,6 @@ class LeftNav extends Component {
     }
 }
 export default connect(
-    state => ({}),
+    state => ({user: state.user}),
     {setHeadTitle}
 )(withRouter(LeftNav))
