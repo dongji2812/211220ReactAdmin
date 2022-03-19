@@ -3,7 +3,7 @@ import {combineReducers} from 'redux'
 import storageUtils from '../utils/storageUtils'
 import {SET_HEAD_TITLE, RECEIVE_USER, SHOW_ERROR_MSG, RESET_USER} from './action-types'
 
-const initHead = '首页'
+const initHead = ''
 function headTitle(state = initHead, action) {
     switch(action.type) {
         case SET_HEAD_TITLE: 

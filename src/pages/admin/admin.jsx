@@ -14,6 +14,7 @@ import Role from '../../pages/role/role'
 import Bar from '../../pages/charts/bar'
 import Line from '../../pages/charts/line'
 import Pie from '../../pages/charts/pie'
+import NotFound from "../not-found/not-found"
 
 const { Footer, Sider, Content } = Layout
 
@@ -37,15 +38,16 @@ class Admin extends Component{
 
                     <Content style={{margin:20, backgroundColor:'#fff'}}> {/* 默认是灰色，中间content设置为白色。 */}
                         <Switch>
-                        <Route path='/home' component={Home}/>
-                        <Route path='/category' component={Category}/>
-                        <Route path='/product' component={Product}/>
-                        <Route path='/user' component={User}/>
-                        <Route path='/role' component={Role}/>
-                        <Route path="/charts/bar" component={Bar}/>
-                        <Route path="/charts/pie" component={Pie}/>
-                        <Route path="/charts/line" component={Line}/>
-                        <Redirect to='/home'></Redirect>
+                            <Redirect exact from='/' to='/home'></Redirect>
+                            <Route path='/home' component={Home}/>
+                            <Route path='/category' component={Category}/>
+                            <Route path='/product' component={Product}/>
+                            <Route path='/user' component={User}/>
+                            <Route path='/role' component={Role}/>
+                            <Route path="/charts/bar" component={Bar}/>
+                            <Route path="/charts/pie" component={Pie}/>
+                            <Route path="/charts/line" component={Line}/>
+                            <Route component={NotFound}></Route>
                         </Switch>
                     </Content>
 

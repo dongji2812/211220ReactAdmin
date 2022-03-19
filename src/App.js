@@ -13,8 +13,8 @@ export default class App extends React.Component{//react所有组件名首字母
         return (
             <BrowserRouter>
               <Switch>{/* 只匹配其中一个 */}
-                  <Route path='/login' component={Login}></Route> {/* login是路由组件，表示登陆页面 */}
-                  <Route path='/' component={Admin}></Route> {/* admin是路由组件，表示后台管理主页页面 */}
+                  <Route path='/login' component={Login}></Route> {/* Login是路由组件，表示登陆页面 */}
+                  <Route path='/' component={Admin}></Route> {/* Admin是路由组件，表示后台管理主页页面 */}
               </Switch>
             </BrowserRouter>
         )  
