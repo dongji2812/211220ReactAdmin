@@ -2,23 +2,23 @@ import { message } from 'antd';
 import jsonp from 'jsonp';
 import ajax from './ajax'
 
-const BASE = '';
+const BASE = '/api'
 
-export const reqLogin = (username, password) => ajax(BASE + '/login', {username, password}, 'POST'); //调用ajax函数。
+export const reqLogin = (username, password) => ajax(BASE + '/login', {username, password}, 'POST') //调用ajax函数。
 
-//export const repAddUser = (user) => ajax(BASE + '/manage/user/add', user, 'POST');
+//export const repAddUser = (user) => ajax(BASE + '/manage/user/add', user, 'POST')
 
-export const reqCategorys = (parentId) => ajax(BASE + '/manage/category/list', {parentId});
+export const reqCategorys = (parentId) => ajax(BASE + '/manage/category/list', {parentId})
 
-export const reqAddCategory = (parentId, categoryName) => ajax(BASE + '/manage/category/add', {parentId, categoryName}, 'POST');
+export const reqAddCategory = (parentId, categoryName) => ajax(BASE + '/manage/category/add', {parentId, categoryName}, 'POST')
 //要求输入参数 和 (parentId, categoryName) 顺序一致。
 
-export const reqUpdateCategory = ({categoryId, categoryName}) => ajax(BASE + '/manage/category/update', {categoryId, categoryName}, 'POST');
+export const reqUpdateCategory = ({categoryId, categoryName}) => ajax(BASE + '/manage/category/update', {categoryId, categoryName}, 'POST')
 //要求输入参数 和 ({categoryId, categoryName}) 名字一致。
 
-export const reqCategory = (categoryId) => ajax(BASE + '/manage/category/info', {categoryId});
+export const reqCategory = (categoryId) => ajax(BASE + '/manage/category/info', {categoryId})
 
-export const reqProducts = (pageNum, pageSize) => ajax(BASE + '/manage/product/list', {pageNum, pageSize});
+export const reqProducts = (pageNum, pageSize) => ajax(BASE + '/manage/product/list', {pageNum, pageSize})
 
 export const reqSearchProducts = ({pageNum, pageSize, searchType, searchName}) => ajax(BASE + '/manage/product/search', {pageNum, pageSize, [searchType]:searchName})
 //函数的输入 是四个参数，函数实际调用是三对属性名和属性值。

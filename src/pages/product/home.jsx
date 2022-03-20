@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
 import { Card, Select, Input, Button, Icon, Table, message } from 'antd'
+
 import LinkButton from '../../components/link-button'
 import { reqProducts, reqSearchProducts, reqUpdateStatus } from '../../api'
 import { PAGE_SIZE } from '../../utils/constants'
+import memoryUtils from '../../utils/memoryUtils'
 
 const Option = Select.Option
 
@@ -56,17 +58,31 @@ export default class ProductHome extends Component {
               render: (product) => { //每个product是对象的形式。
                   return (
                     <span>
-                      <LinkButton onClick={()=>this.props.history.push('/product/detail', {product})}>详情</LinkButton>    
+                      {/* <LinkButton onClick={()=>this.props.history.push('/product/detail', {product})}>详情</LinkButton> */}
                       {/* push()内 传递的是字符串格式。  push()内传递两个参数，第一个参数是目标组件的路径，第二个参数是要传递给目标组件的数据。 
                       第二个参数是整个的state，即this.props.location.state*/}
-                      <LinkButton onClick={()=>this.props.history.push('/product/addupdate', product)}>修改</LinkButton>
+                      
+                      {/* <LinkButton onClick={()=>this.props.history.push('/product/addupdate', product)}>修改</LinkButton> */}
                       {/* 加{}取的时候需要.product 即const {xx} = this.props.location.state.product */}
                       {/* 不加{}取的时候直接const {xx} = this.props.location.state */}
+                      
+                      <LinkButton onClick={() => this.showDetail(product)}>详情</LinkButton> 
+                      <LinkButton onClick={() => this.showUpdate(product)}>修改</LinkButton>
                     </span>
                   )
                 }
-            },
-        ];
+            }
+        ]
+    }
+
+    showDetail = (product) => {
+        memoryUtils.product = product
+        this.props.history.push('/product/detail')
+    }
+
+    showUpdate = (product) => {
+        memoryUtils.product = product
+        this.props.history.push('/product/addupdate')
     }
 
     getProducts = async(pageNum) => { //getProducts()一个参数。
@@ -114,21 +130,23 @@ export default class ProductHome extends Component {
         const title = (
             <span>
                 <Select 
-                value={searchType} //Select的默认值 要看变量searchType 和 下面option的哪个value常量值匹配。
-                style={{width:150}} 
-                onChange={value => this.setState({searchType: value})} //选中的option发生改变时（value发生改变时），变量searchType改变。
+                    value={searchType} //Select的默认值 要看变量searchType 和 下面option的哪个value常量值匹配。
+                    style={{width:150}} 
+                    onChange={value => this.setState({searchType: value})} //选中的option发生改变时（value发生改变时），变量searchType改变。
                 >
                     <Option value='productName'>按名称搜索</Option>
                     <Option value='productDesc'>按描述搜索</Option>
                 </Select>
+
                 <Input 
-                placeholder='请输入关键字' 
-                value={searchName} //Input的默认值 是变量searchName。
-                style={{width:150, margin:'0 15px'}} 
-                onChange={event => this.setState({searchName: event.target.value})} 
-                //input框的内容发生改变时（value发生改变时），变量searchName改变。
+                    placeholder='请输入关键字' 
+                    value={searchName} //Input的默认值 是变量searchName。
+                    style={{width:150, margin:'0 15px'}} 
+                    onChange={event => this.setState({searchName: event.target.value})} 
+                    //input框的内容发生改变时（value发生改变时），变量searchName改变。
                 >
                 </Input>
+
                 <Button type='primary' onClick={() => this.getProducts(1)}>搜索</Button>   
                 {/* 调用该函数，传递的实参都是1，展示pageNum=1的结果，即第一页的结果。    展示其他页，页码切换，用的是table的onchange函数。 */}
             </span>
@@ -141,21 +159,21 @@ export default class ProductHome extends Component {
         )
         return (
             <Card title={title} extra={extra}>
-            <Table
-                bordered
-                loading={loading}
-                rowKey='_id' 
-                dataSource={products} 
-                columns={this.columns}
-                pagination={{
-                    current: this.pageNum,
-                    total,
-                    defaultPageSize: PAGE_SIZE,
-                    showQuickJumper: true,
-                    onChange: this.getProducts 
-                    //onChange的值是个函数。如果值是函数，那么意思就是回调函数。     回调函数传入的形参就是调用函数的实参，所以这里简写成这样。
-                }} 
-            />
+                <Table
+                    bordered
+                    loading={loading}
+                    rowKey='_id' 
+                    dataSource={products} 
+                    columns={this.columns}
+                    pagination={{
+                        current: this.pageNum,
+                        total,
+                        defaultPageSize: PAGE_SIZE,
+                        showQuickJumper: true,
+                        onChange: this.getProducts 
+                        //onChange的值是个函数。如果值是函数，那么意思就是回调函数。     回调函数传入的形参就是调用函数的实参，所以这里简写成这样。
+                    }} 
+                />
             </Card>
         )
     }

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Upload, Modal, message } from 'antd'
+
 import { reqDeleteImg } from '../../api'
 import {BASE_IMG_URL} from '../../utils/constants'
 
@@ -10,6 +11,7 @@ export default class PicturesWall extends React.Component {
     static propTypes = {
         imgs: PropTypes.array
     }
+    
     /* state = {
         previewVisible: false,
         previewImage: '', 

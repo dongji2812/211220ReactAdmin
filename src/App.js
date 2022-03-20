@@ -1,6 +1,5 @@
 import React from 'react'
-//import { Button, message } from 'antd'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import {HashRouter, Route, Switch } from 'react-router-dom'
 
 import Login from './pages/login/login'
 import Admin from './pages/admin/admin'
@@ -11,12 +10,14 @@ import Admin from './pages/admin/admin'
 export default class App extends React.Component{//react所有组件名首字母必须大写，如App。   Component是react的属性。
     render(){
         return (
-            <BrowserRouter>
+            /* <BrowserRouter> */
+            <HashRouter>
               <Switch>{/* 只匹配其中一个 */}
                   <Route path='/login' component={Login}></Route> {/* Login是路由组件，表示登陆页面 */}
                   <Route path='/' component={Admin}></Route> {/* Admin是路由组件，表示后台管理主页页面 */}
               </Switch>
-            </BrowserRouter>
+            </HashRouter>
+            /*</BrowserRouter> */
         )  
     }
 }

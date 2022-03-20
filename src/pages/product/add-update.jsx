@@ -1,9 +1,11 @@
-import { Card, Form, Icon, Input, Cascader, Button, message } from 'antd'
 import React, {Component} from 'react'
-import { reqAddOrUpdateProduct, reqCategorys } from '../../api'
-import LinkButton from '../../components/link-button'
+import { Card, Form, Icon, Input, Cascader, Button, message } from 'antd'
+
+import memoryUtils from '../../utils/memoryUtils'
 import PicturesWall from './pictures-wall'
 import RichTextEditor from './rich-text-editor'
+import LinkButton from '../../components/link-button'
+import { reqAddOrUpdateProduct, reqCategorys } from '../../api'
 
 const {Item} = Form
 const { TextArea } = Input
@@ -64,8 +66,8 @@ class ProductAddUpdate extends Component {
     }
 
     loadData = async selectedOptions => {
-        const targetOption = selectedOptions[0];
-        targetOption.loading = true;
+        const targetOption = selectedOptions[0]
+        targetOption.loading = true
 
         const subCategorys = await this.getCategorys(targetOption.value) 
         //await后面是一个promise对象。如果有一个promise对象，那么await promise对象，就可以直接取到promise对象的结果值。
@@ -119,13 +121,19 @@ class ProductAddUpdate extends Component {
     }
 
     componentWillMount () {
-        const product = this.props.location.state
-        this.isUpdate = !!product
+        //const product = this.props.location.state
+        const product = memoryUtils.product
+        //this.isUpdate = !!product
+        this.isUpdate = !!product._id
         this.product = product || {} //注意一定要有||{}。
     }
 
     componentDidMount () {
         this.getCategorys('0')
+    }
+
+    componentWillUnmount () {
+        memoryUtils.product = {}
     }
 
     render() {
