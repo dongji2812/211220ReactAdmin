@@ -1,12 +1,13 @@
-import React,{Component} from "react"
+import React, {Component} from "react"
 import { Redirect, Route, Switch} from "react-router-dom"
-//import memoryUtils from "../../utils/memoryUtils"
 import { Layout } from 'antd'
 import {connect} from 'react-redux'
 
+//import memoryUtils from "../../utils/memoryUtils"
 import LeftNav from '../../components/left-nav'//在下面 作为标签使用。
 import Header from '../../components/header'//在下面 作为标签使用。
-import Home from '../../pages/home/home' //Home在下面作为组件使用。共八个。
+
+import Home from '../../pages/home/home' //Home在下面作为组件使用。和下面一样，共9个。
 import Category from '../../pages/category/category'
 import Product from '../../pages/product/product'
 import User from '../../pages/user/user'
@@ -16,7 +17,7 @@ import Line from '../../pages/charts/line'
 import Pie from '../../pages/charts/pie'
 import NotFound from "../not-found/not-found"
 
-const { Footer, Sider, Content } = Layout
+const {Sider, Content, Footer} = Layout
 
 class Admin extends Component{
 
@@ -24,7 +25,7 @@ class Admin extends Component{
         //const user = memoryUtils.user
         const user = this.props.user
 
-        if (!user || !user._id) {
+        if (!user || !user._id) {//如果user为0 那么跳转到login页面。
             return <Redirect to='/login'/>
         }
         
@@ -33,8 +34,9 @@ class Admin extends Component{
                 <Sider>
                     <LeftNav></LeftNav>
                 </Sider>
+
                 <Layout>
-                    <Header>header</Header>
+                    <Header></Header>
 
                     <Content style={{margin:20, backgroundColor:'#fff'}}> {/* 默认是灰色，中间content设置为白色。 */}
                         <Switch>
@@ -47,7 +49,8 @@ class Admin extends Component{
                             <Route path="/charts/bar" component={Bar}/>
                             <Route path="/charts/pie" component={Pie}/>
                             <Route path="/charts/line" component={Line}/>
-                            <Route component={NotFound}></Route>
+                            <Route component={NotFound}></Route> 
+                            {/* 进到Admin组件后，从上到下匹配路径去响应的路由组件，如果上面都不满足，就去NotFound组件。 */}
                         </Switch>
                     </Content>
 
