@@ -41,12 +41,12 @@ export default class ProductHome extends Component {
                 const newStatus = status === 1 ? 2 : 1
                   return(
                       <span>
-                          <Button
-                              type='primary' 
-                              onClick={() => {this.updateStatus(_id, newStatus)}}
-                          >
-                              {status === 1 ? '下架' : '上架'}
-                          </Button>
+                            <Button
+                                type='primary' 
+                                onClick={() => {this.updateStatus(_id, newStatus)}}
+                            >
+                                {status === 1 ? '下架' : '上架'}
+                            </Button>
                           <span>{status === 1 ? '在售' : '已下架'}</span>
                       </span>
                   )
@@ -63,8 +63,8 @@ export default class ProductHome extends Component {
                       第二个参数是整个的state，即this.props.location.state*/}
                       
                       {/* <LinkButton onClick={()=>this.props.history.push('/product/addupdate', product)}>修改</LinkButton> */}
-                      {/* 加{}取的时候需要.product 即const {xx} = this.props.location.state.product */}
-                      {/* 不加{}取的时候直接const {xx} = this.props.location.state */}
+                      {/* 加{}时。取的时候需要.product 即const {xx} = this.props.location.state.product */}
+                      {/* 不加{}时，取的时候直接const {xx} = this.props.location.state */}
                       
                       <LinkButton onClick={() => this.showDetail(product)}>详情</LinkButton> 
                       <LinkButton onClick={() => this.showUpdate(product)}>修改</LinkButton>
@@ -100,7 +100,7 @@ export default class ProductHome extends Component {
         
         this.setState({loading: false})
         if (result.status === 0) {
-            const {total, list} = result.data;
+            const {total, list} = result.data
             this.setState({
                 total,
                 products: list

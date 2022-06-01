@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import jsonp from 'jsonp';
-import ajax from './ajax'
+import ajax from './ajax' //引入自定义的ajax函数。
 
 const BASE = '/api'
 

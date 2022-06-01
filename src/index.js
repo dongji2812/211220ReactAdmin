@@ -15,4 +15,4 @@ ReactDOM.render((
     <Provider store={store}> {/* Provider是根组件，Provider接收store，然后把store暴露给 所有的容器组件。   包装UI组件生成的组件就是容器组件。*/}
         <App/>
     </Provider>
-),document.getElementById('root'))  
+),document.getElementById('root'))

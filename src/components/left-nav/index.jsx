@@ -13,7 +13,7 @@ const { SubMenu } = Menu
 
 class LeftNav extends Component {
 
-/*     getMenuNodes_map = (menuList) => {
+/*  getMenuNodes_map = (menuList) => {
         return menuList.map(item => {
             if (!item.children) {
                 return (
@@ -60,7 +60,7 @@ class LeftNav extends Component {
         return menuList.reduce((pre, item) => {
             if (this.hasAuth(item)) { //每个数组元素item 都要判断是否满足this.hasAuth()。
                 if (!item.children) {
-                    if (item.key === path || path.indexOf(item.key) === 0){    //不仅点击，路径匹配的时候也要更新redux状态。
+                    if (item.key === path || path.indexOf(item.key) === 0){  //不仅下面的点击，路径匹配的时候也要更新redux状态。
                         this.props.setHeadTitle(item.title)
                     }
                     pre.push((
@@ -69,13 +69,13 @@ class LeftNav extends Component {
                                 <Icon type={item.icon}></Icon>
                                 <span>{item.title}</span>
                             </Link>
-                      </Menu.Item>                                       
+                        </Menu.Item>                                       
                     ))
                 } else {
                     /* const cItem = item.children.find(cItem => cItem.key === path) */
                     const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0) //修正过。
                     if (cItem) {
-                        this.openKey = item.key;
+                        this.openKey = item.key //需要打开子列表。
                     }
                     pre.push((
                         <SubMenu 
@@ -101,7 +101,7 @@ class LeftNav extends Component {
 
     render() {
         let selectpath = this.props.location.pathname
-        if (selectpath.indexOf('/product') === 0) {
+        if (selectpath.indexOf('/product') === 0) { //处理product下的多个路径。
             selectpath = '/product'
         }
         const openKey = this.openKey
@@ -112,14 +112,14 @@ class LeftNav extends Component {
                     <img src={logo} alt="logo"></img>
                     <h1>硅谷后台</h1>
                 </Link>
-                <Menu
-                  selectedKeys={[selectpath]}
-                  defaultOpenKeys={[openKey]}
+                <Menu //主列表。
+                  selectedKeys={[selectpath]} //根据目前访问的路径 选中 左侧的导航栏。
+                  defaultOpenKeys={[openKey]} //需要打开子列表。
                   mode="inline"
                   theme="dark"
                 >
                     {
-                        this.menuNodes
+                        this.menuNodes //分列表。
                     }
                 </Menu>
             </div>

@@ -6,7 +6,6 @@ import {connect} from 'react-redux'
 import { formateDate } from '../../utils/dateUtils'
 import LinkButton from '../link-button' //在下面 作为标签使用。 
 import './index.less'
-import '../../api/index' 
 //import memoryUtils from '../../utils/memoryUtils'
 //import storageUtils from '../../utils/storageUtils'
 import { reqWeather } from '../../api/index'

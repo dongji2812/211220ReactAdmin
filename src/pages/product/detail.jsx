@@ -43,9 +43,9 @@ export default class ProductDetail extends Component {
             <span>
                 <LinkButton>
                     <Icon 
-                    type='arrow-left'
-                    style={{marginRight: 10, fontSize:20}}
-                    onClick={()=>this.props.history.goBack()}
+                        type='arrow-left'
+                        style={{marginRight: 10, fontSize:20}}
+                        onClick={()=>this.props.history.goBack()}
                     />
                 </LinkButton>
                 <span>商品详情</span>
@@ -53,7 +53,7 @@ export default class ProductDetail extends Component {
         )
 
         return (
-            <Card title={title} className='product-detail'>    {/* title是const类型的，所以用{}。 */}
+            <Card title={title} className='product-detail'>    {/* title是变量，所以用{}。 */}
                 <List>
                     <Item>
                         <span className='left'>商品名称：</span>

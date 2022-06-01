@@ -15,9 +15,10 @@ const Item = Form.Item
 class Login extends Component{
 
     handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault() //阻止表单的默认提交事件。
 
-        this.props.form.validateFields(async (err, values) => {
+        //this.props.form.validateFields(async (err, values) => {
+        this.props.form.validateFields((err, values) => {
             if (!err) {
                 //console.log('校验成功');
                 const {username, password} = values
@@ -77,7 +78,7 @@ class Login extends Component{
                                 })(
                                     <Input
                                         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} 
-                                        //prefix是带有前缀图标的input。它的值可以是ReactNode即标签结构。Icon是图标，图标的类型是user。
+                                        //prefix的值可以是标签结构。Icon是antd中的图标，图标的类型是user。
                                         placeholder="用户名"
                                     />
                                 )                               

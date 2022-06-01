@@ -16,7 +16,7 @@ export default class PicturesWall extends React.Component {
         previewVisible: false,
         previewImage: '', 
         fileList: []
-    } 课程讲授中并没有把这部分注释掉，但是这里注释掉并没有报错。*/
+    }*/
 
     constructor (props) {
         super(props)
@@ -84,7 +84,7 @@ export default class PicturesWall extends React.Component {
               <Icon type="plus" />
               <div>Upload</div>
             </div>
-            )*/
+        )*/
         return (
             <div>
                 <Upload
@@ -97,8 +97,8 @@ export default class PicturesWall extends React.Component {
                     onPreview={this.handlePreview} //大图预览。
                     >
                     {/* {fileList.length >= 4 ? null : uploadButton} 讲授的语法。*/}
-                    {/*uploadButton} 代表没有数量限制，一直有uploadButton的加号*/}
-                    {fileList.length < 5 && '+ Upload'}     {/* 和讲授的语法不一致，效果一样 */}
+                    {/*uploadButton代表没有数量限制，一直有uploadButton的加号*/}
+                    {fileList.length < 5 && '+ Upload'}     {/* 满足前面条件，才执行后面语句。和讲授的语法不一致，效果一样。 */}
                 </Upload>
 
                 <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}> 

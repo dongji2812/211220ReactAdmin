@@ -39,6 +39,7 @@ class ProductAddUpdate extends Component {
                 label: c.name,
                 isLeaf: true
             }))
+
             const targetOption = options.find(option => option.value === pCategoryId)
             targetOption.children = childOptions
         }
@@ -50,16 +51,16 @@ class ProductAddUpdate extends Component {
         if (result.status === 0) {
             const categorys = result.data
             if (parentId === '0'){
-                this.initOptions(categorys) //再单独创建一个initOptions（）函数。
+                this.initOptions(categorys) //再单独创建一个initOptions()函数。当前async函数返回的promsie 是成功状态 且 value为undefined。
             }else {
-                return categorys
+                return categorys //当前async函数返回的promsie 是成功状态 且 value为categorys。
             } 
         }
     }
 
     validatePrice = (rule, value, callback) =>{ //rule没用上。
         if (value*1 > 0) {
-            callback()
+            callback() //验证通过。
         } else {
             callback('商品价格必须大于0')
         }
@@ -205,12 +206,12 @@ class ProductAddUpdate extends Component {
                                     {required: true, message: '必须选择商品分类'},
                                 ]
                             })(<Cascader 
-                                placeholder='请选择商品分类'
-                                options={this.state.options} 
-                                loadData={this.loadData} 
-                                /* onChange={onChange} 
-                                changeOnSelect  */
-                            />)
+                                    placeholder='请选择商品分类'
+                                    options={this.state.options} 
+                                    loadData={this.loadData} 
+                                    /* onChange={onChange} 
+                                    changeOnSelect  */
+                                />)
                         }
                     </Item>
                     <Item label='商品图片'>
