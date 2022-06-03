@@ -44,7 +44,7 @@ class Login extends Component{
     render () {
         //const user = memoryUtils.user
         const user = this.props.user
-        if (user && user._id) { //如果user有值 那么跳转到Admin后台管理主页页面。而/会自动跳转到/home页面。
+        if (user && user._id) { //如果user有值 那么跳转到/页面，即Admin后台管理主页页面。后续/页面会自动跳转到/home页面。
             return <Redirect to='/'/> /* 或者return <Redirect to='/home'/> 直接跳转到home页面*/
         }
 

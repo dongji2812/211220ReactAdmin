@@ -37,10 +37,11 @@ export default class AuthForm extends PureComponent {//Role是父组件，AuthFo
         this.setState({ checkedKeys })
     }
 
+    /* 获取所有选中的树节点checkedKeys，即选中元素的key构成的数组。 */
     getMenus = () => this.state.checkedKeys
 
     componentWillMount () {
-        this.treeNodes = this.getTreeNodes(menuList)
+        this.treeNodes = this.getTreeNodes(menuList) //返回值是数组的形式。
     }
 
     componentWillReceiveProps (nextProps) { //初始显示时不会调用，后续每打开一个角色，保证 都是该角色对应的menus。
@@ -67,11 +68,11 @@ export default class AuthForm extends PureComponent {//Role是父组件，AuthFo
                 <Tree
                     checkable
                     defaultExpandAll={true}
-                    checkedKeys={checkedKeys}
+                    checkedKeys={checkedKeys} //key是menuList数组中每项元素的key，checkedKeys是选中元素的key。
                     onCheck={this.onCheck}
                 >
                     <TreeNode title="平台权限" key="all">
-                    {this.treeNodes}
+                        {this.treeNodes}
                     </TreeNode>  
                 </Tree>
             </div>

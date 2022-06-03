@@ -14,8 +14,8 @@ import {logout} from '../../redux/actions'
 class Role extends Component {//admin不占有角色，也不占有用户。
 
     state = {
-        roles: [],
-        role: {},
+        roles: [], //所有角色列表。
+        role: {}, //当前角色。
         isShowAdd: false,
         isShowAuth: false
     }
@@ -95,7 +95,7 @@ class Role extends Component {//admin不占有角色，也不占有用户。
 
     updateRole = async () => {
         const role = this.state.role //得到的role是对象的形式。
-        const menus = this.auth.current.getMenus()
+        const menus = this.auth.current.getMenus() //获取所有选中的树节点checkedKeys，即选中元素的key构成的数组，作为menus数组。
         role.menus = menus
         role.auth_time = Date.now() //接口函数 根据Date.now()返回 授权时间的默认结果，再通过formateDate函数 格式化时间。
         //role.auth_name = memoryUtils.user.username

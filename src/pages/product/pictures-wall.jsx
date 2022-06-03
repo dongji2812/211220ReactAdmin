@@ -73,8 +73,9 @@ export default class PicturesWall extends React.Component {
         this.setState({fileList})
     }
 
+    /* 子组件中没有调用该函数，由父组件调用该函数。 */
     getImgs = () => {
-        return this.state.fileList.map(file => file.name) //是return。 父组件调用的时候要这个返回结果。
+        return this.state.fileList.map(file => file.name) //是return。 父组件调用的时候要这个返回结果，即已上传图片文件名的数组。
     }
 
     render () {
@@ -90,7 +91,7 @@ export default class PicturesWall extends React.Component {
                 <Upload
                     action="/manage/img/upload" //这里写了接口地址，这里也会发送请求，是组件内部发送请求。
                     accept='image/*'
-                    name='image' //因为后台接口函数的key叫image，value是上传的图片。 所以这里name也设置为image。
+                    name='image' //因为后台接口函数的key值叫image，value值是上传的图片。 所以这里name也设置为image，表示参数名。
                     listType="picture-card"
                     fileList={fileList}
                     onChange={this.handleChange}
@@ -101,6 +102,7 @@ export default class PicturesWall extends React.Component {
                     {fileList.length < 5 && '+ Upload'}     {/* 满足前面条件，才执行后面语句。和讲授的语法不一致，效果一样。 */}
                 </Upload>
 
+                {/* 大图预览。 */}
                 <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}> 
                     <img alt="example" style={{ width: '100%' }} src={previewImage} /> 
                 </Modal>

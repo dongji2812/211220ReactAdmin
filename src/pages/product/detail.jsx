@@ -73,7 +73,7 @@ export default class ProductDetail extends Component {
                     </Item>
                     <Item>
                         <span className='left'>商品图片：</span>
-                        <span>  {/* 图片放在span里。 {js语句}也放在span里。*/}
+                        <span>  {/* 每个图片即img标签放在span里。 {js语句}也放在span里。*/}
                             {
                                 imgs.map(img => (
                                     <img

@@ -13,7 +13,7 @@ export default class ProductHome extends Component {
         loading: false,
         total: 0,
         products: [],
-        searchType: 'productName',
+        searchType: 'productName', //默认按照商品名称搜索。
         searchName: ''
     }
 
@@ -64,7 +64,7 @@ export default class ProductHome extends Component {
                       
                       {/* <LinkButton onClick={()=>this.props.history.push('/product/addupdate', product)}>修改</LinkButton> */}
                       {/* 加{}时。取的时候需要.product 即const {xx} = this.props.location.state.product */}
-                      {/* 不加{}时，取的时候直接const {xx} = this.props.location.state */}
+                      {/* 不加{}时，取的时候直接用，即const {xx} = this.props.location.state */}
                       
                       <LinkButton onClick={() => this.showDetail(product)}>详情</LinkButton> 
                       <LinkButton onClick={() => this.showUpdate(product)}>修改</LinkButton>

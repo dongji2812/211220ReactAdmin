@@ -35,13 +35,13 @@ export default class User extends Component {
             {
                 title: '所属角色',
                 dataIndex: 'role_id',
-                render: (role_id) => this.roleNames[role_id]
+                render: (role_id) => this.roleNames[role_id] //得到对象中，属性名role_id对应的属性值role.name。
             },
             {
                 title: '操作',
                 render: (user) => (
                     <span>
-                        <LinkButton onClick={() => {this.showUpdate(user)}}>修改</LinkButton>
+                        <LinkButton onClick={() => this.showUpdate(user)}>修改</LinkButton>
                         <LinkButton onClick={() => this.deleteUser(user)}>删除</LinkButton>
                     </span>
                 )
@@ -49,7 +49,7 @@ export default class User extends Component {
         ]
     }
 
-    initRoleNames = (roles) => {
+    initRoleNames = (roles) => { //创建一个 属性名role_id和属性值role.name相对应 的对象。
         const roleNames = roles.reduce((pre, role) => {
             pre[role._id] = role.name
             return pre
@@ -88,7 +88,7 @@ export default class User extends Component {
             if (!error) {
                 const {username, password, phone, email, role_id} = values
                 const user = {username, password, phone, email, role_id}
-                if (this.user) {
+                if (this.user) { //如果是更新。
                     user._id = this.user._id
                 }
                 this.form.resetFields()

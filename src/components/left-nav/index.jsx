@@ -75,7 +75,7 @@ class LeftNav extends Component {
                     /* const cItem = item.children.find(cItem => cItem.key === path) */
                     const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0) //修正过。
                     if (cItem) {
-                        this.openKey = item.key //需要打开子列表。
+                        this.openKey = item.key //需要打开子列表。item.key是一级列表项的key。
                     }
                     pre.push((
                         <SubMenu 
