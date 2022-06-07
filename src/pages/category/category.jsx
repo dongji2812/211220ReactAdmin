@@ -59,7 +59,7 @@ export default class Category extends Component {
             parentName: category.name
         }, () => { //看React的API文档，找到API中的React.Component，找到setState()使用说明，发现它的第二个参数可以是回调函数。           
             //回调函数在this.setState()函数括号内。
-            this.getCategorys()
+            this.getCategorys() //需要发送请求，获取最新二级列表。
         })
     }
 
@@ -92,7 +92,7 @@ export default class Category extends Component {
 
                 const {parentId, categoryName} = values
                 this.form.resetFields()
-                const result = await reqAddCategory(parentId, categoryName)
+                const result = await reqAddCategory(parentId, categoryName) //post请求，会添加分类。
                 if (result.status === 0) {
                     if (parentId === this.state.parentId) {
                         this.getCategorys()
@@ -168,7 +168,7 @@ export default class Category extends Component {
                     onCancel={this.handleCancel}
                     onOk={this.addCategory} 
                 >
-                    <AddForm //父组件是Category，子组件是AddForm。子组件向父组件传递form。      Modal并不是组件。
+                    <AddForm //父组件是Category，子组件是AddForm。子组件向父组件传递form。      Modal不是父组件。
                         parentId={parentId}
                         categorys={categorys}
                         setForm={(form) => {this.form = form}}

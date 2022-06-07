@@ -26,7 +26,7 @@ class AddForm extends Component {
                 <Item> {/* 用Item包一下Select和Input。 */}
                     {
                         getFieldDecorator('parentId', {
-                            initialValue: parentId
+                            initialValue: parentId //默认值。
                         })(
                             <Select>
                                 <Option value='0'>一级分类</Option>

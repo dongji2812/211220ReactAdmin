@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { EditorState, convertToRaw, ContentState } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
-import draftToHtml from 'draftjs-to-html'
+import { EditorState, convertToRaw, ContentState } from 'draft-js'
 import htmlToDraft from 'html-to-draftjs'
+import draftToHtml from 'draftjs-to-html'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-
 
 export default class RichTextEditor extends Component {
     static propTypes = {
@@ -37,9 +36,7 @@ export default class RichTextEditor extends Component {
     }
 
     onEditorStateChange = (editorState) => {
-        this.setState({
-        editorState,
-        }) 
+        this.setState({editorState}) 
     } 
 
     getDetail = () => {
@@ -47,15 +44,14 @@ export default class RichTextEditor extends Component {
     }
 
     uploadImageCallBack = (file) => {
-        return new Promise(
-          (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest() 
-            xhr.open('POST', '/manage/img/upload') 
+            xhr.open('POST', '/manage/img/upload') //请求类型 和 url。
             const data = new FormData() 
             data.append('image', file) 
             xhr.send(data) 
             xhr.addEventListener('load', () => {
-              const response = JSON.parse(xhr.responseText) //
+              const response = JSON.parse(xhr.responseText)
               const url = response.data.url
               resolve({data: {link: url}})
             }) 
@@ -76,7 +72,7 @@ export default class RichTextEditor extends Component {
                 onEditorStateChange={this.onEditorStateChange}
                 toolbar={{
                     image: { uploadCallback: this.uploadImageCallBack, alt: { present: true, mandatory: true } }
-                  }}
+                }}
             />
         ) 
     }

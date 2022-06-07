@@ -1,18 +1,21 @@
 import React, {Component} from 'react'
 import {Card, Button, Table, Modal, message} from 'antd'
+import {connect} from 'react-redux'
+
 import {PAGE_SIZE} from '../../utils/constants'
 import {reqRoles, reqAddRole, reqUpdateRole} from '../../api'
 import AddForm from './add-form'
 import AuthForm from './auth-form'
-import memoryUtils from "../../utils/memoryUtils"
+//import memoryUtils from "../../utils/memoryUtils"
 import {formateDate} from '../../utils/dateUtils'
-import storageUtils from '../../utils/storageUtils'
+//import storageUtils from '../../utils/storageUtils'
+import {logout} from '../../redux/actions'
  
-export default class Role extends Component {//admin不占有角色，也不占有用户。
+class Role extends Component {//admin不占有角色，也不占有用户。
 
     state = {
-        roles: [],
-        role: {},
+        roles: [], //所有角色列表。
+        role: {}, //当前角色。
         isShowAdd: false,
         isShowAuth: false
     }
@@ -78,7 +81,7 @@ export default class Role extends Component {//admin不占有角色，也不占�
 
                     const role = result.data
                     this.setState(state => ({ //注意这里的()。
-                        //函数的返回值是对象，如果写成箭头函数的话 形式为() => ({})。
+                        //箭头函数的返回值是对象，形式为() => ({})
                         roles: [...state.roles, role]
                     }))
                 } else {
@@ -92,17 +95,20 @@ export default class Role extends Component {//admin不占有角色，也不占�
 
     updateRole = async () => {
         const role = this.state.role //得到的role是对象的形式。
-        const menus = this.auth.current.getMenus()
+        const menus = this.auth.current.getMenus() //获取所有选中的树节点checkedKeys，即选中元素的key构成的数组，作为menus数组。
         role.menus = menus
         role.auth_time = Date.now() //接口函数 根据Date.now()返回 授权时间的默认结果，再通过formateDate函数 格式化时间。
-        role.auth_name = memoryUtils.user.username
+        //role.auth_name = memoryUtils.user.username
+        role.auth_name = this.props.user.username
 
         const result = await reqUpdateRole(role) //传入的role是对象的形式。
         if (result.status === 0) {
-            if (role._id === memoryUtils.user.role._id) {
-                memoryUtils.user = {}
+            //if (role._id === memoryUtils.user.role._id) {
+            if (role._id === this.props.user.role._id) {
+                /* memoryUtils.user = {}
                 storageUtils.removeUser()
-                this.props.history.replace('/login')
+                this.props.history.replace('/login') */
+                this.props.logout()
                 message.success('当前用户的角色权限已更改，请重新登录')
             } else {
                 message.success('设置角色权限成功！')
@@ -181,3 +187,7 @@ export default class Role extends Component {//admin不占有角色，也不占�
         )
     }
 }
+export default connect(
+    state => ({user: state.user}),
+    {logout}
+)(Role)
